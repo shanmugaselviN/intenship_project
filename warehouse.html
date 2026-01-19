@@ -1,0 +1,317 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Warehouse | Smart Farm</title>
+
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Playfair+Display:wght@600;700&display=swap" rel="stylesheet">
+
+<style>
+*{box-sizing:border-box;font-family:'Inter',sans-serif}
+
+body{
+  min-height:100vh;
+  display:flex;
+  justify-content:center;
+  align-items:flex-start;
+  padding:30px;
+  background:linear-gradient(rgba(0,0,0,.35),rgba(0,0,0,.35)),
+             url("../images/img7.jpg") center/cover fixed;
+}
+
+.main{
+  display:grid;
+  grid-template-columns:380px 1fr;
+  gap:30px;
+  width:100%;
+  max-width:1200px;
+}
+
+.card{
+  background:rgba(255,255,255,.92);
+  backdrop-filter:blur(12px);
+  border-radius:26px;
+  padding:28px;
+  box-shadow:0 20px 45px rgba(0,0,0,.2);
+}
+
+h2{
+  font-family:'Playfair Display',serif;
+  text-align:center;
+  font-weight:700;
+  color:#1b5e20;
+  margin-bottom:22px;
+  letter-spacing:1px;
+}
+
+label{
+  font-weight:600;
+  color:#33691e;
+  margin-top:14px;
+  display:block;
+}
+
+input,select{
+  width:100%;
+  padding:13px;
+  border-radius:14px;
+  border:1px solid #c5e1a5;
+  margin-top:6px;
+  font-weight:500;
+  font-size:14px;
+}
+
+input:focus,select:focus{
+  outline:none;
+  border-color:#43a047;
+  box-shadow:0 0 6px #a5d6a7;
+}
+
+small{
+  color:#d32f2f;
+  font-weight:600;
+  font-size:13px;
+}
+
+.save{
+  margin-top:24px;
+  padding:12px 38px;
+  border:none;
+  border-radius:40px;
+  background:linear-gradient(135deg,#2e7d32,#66bb6a);
+  color:white;
+  font-weight:700;
+  cursor:pointer;
+  display:block;
+  margin:auto;
+  letter-spacing:.5px;
+}
+
+.save:hover{transform:scale(1.08)}
+
+table{
+  width:100%;
+  border-collapse:separate;
+  border-spacing:0 12px;
+}
+
+thead tr{
+  background:linear-gradient(135deg,#1b5e20,#66bb6a);
+}
+
+th{
+  font-family:'Playfair Display',serif;
+  color:white;
+  padding:14px;
+  text-transform:uppercase;
+  letter-spacing:1px;
+  font-size:14px;
+}
+
+tbody tr{
+  background:#f1f8e9;
+  box-shadow:0 8px 18px rgba(0,0,0,.15);
+  transition:.25s;
+}
+
+tbody tr:hover{
+  background:#dcedc8;
+  transform:translateY(-4px);
+}
+
+td{
+  padding:14px;
+  text-align:center;
+  font-weight:500;
+  color:#2e7d32;
+  font-size:14px;
+}
+
+.action{
+  padding:7px 15px;
+  border:none;
+  border-radius:12px;
+  font-weight:600;
+  color:white;
+  cursor:pointer;
+}
+
+.view{background:#0288d1}
+.edit{background:#558b2f}
+.delete{background:#c62828}
+
+@media(max-width:900px){
+  .main{grid-template-columns:1fr}
+}
+</style>
+</head>
+
+<body>
+
+<div class="main">
+
+<div class="card">
+<h2>🏬 Warehouse Entry</h2>
+
+<label>Warehouse Name</label>
+<input id="wname">
+<small id="e1"></small>
+
+<label>Crop Stored</label>
+<input id="crop">
+<small id="e2"></small>
+
+<label>Storage Type</label>
+<select id="type">
+<option value="">Select Type</option>
+<option>Cold Storage</option>
+<option>Dry Storage</option>
+<option>Seed Storage</option>
+</select>
+<small id="e3"></small>
+
+<label>Total Capacity (Tons)</label>
+<input type="number" id="capacity">
+<small id="e4"></small>
+
+<label>Current Stock (Tons)</label>
+<input type="number" id="stock">
+<small id="e5"></small>
+
+<button class="save" onclick="save()">Save</button>
+</div>
+
+<div class="card">
+<h2>📋 Warehouse Records</h2>
+
+<table>
+<thead>
+<tr>
+<th>Name</th>
+<th>Crop</th>
+<th>Type</th>
+<th>Stock</th>
+<th>Capacity</th>
+<th>Action</th>
+</tr>
+</thead>
+<tbody id="tbody"></tbody>
+</table>
+</div>
+
+</div>
+
+<script>
+const wname=document.getElementById("wname");
+const crop=document.getElementById("crop");
+const type=document.getElementById("type");
+const capacity=document.getElementById("capacity");
+const stock=document.getElementById("stock");
+
+const e1=document.getElementById("e1");
+const e2=document.getElementById("e2");
+const e3=document.getElementById("e3");
+const e4=document.getElementById("e4");
+const e5=document.getElementById("e5");
+
+const tbody=document.getElementById("tbody");
+
+let records=[],editIndex=-1;
+
+function onlyText(v){
+  return /^[A-Za-z ]+$/.test(v);
+}
+
+function save(){
+  e1.innerText=e2.innerText=e3.innerText=e4.innerText=e5.innerText="";
+
+  let name=wname.value.trim();
+  let cropName=crop.value.trim();
+  let t=type.value;
+  let cap=capacity.value.trim();
+  let st=stock.value.trim();
+
+  let ok=true;
+
+  if(name===""||name.length<3||!onlyText(name)){
+    e1.innerText="Enter valid warehouse name";
+    ok=false;
+  }
+  if(cropName===""||cropName.length<3||!onlyText(cropName)){
+    e2.innerText="Enter valid crop name";
+    ok=false;
+  }
+  if(t===""){
+    e3.innerText="Select storage type";
+    ok=false;
+  }
+  if(cap===""||isNaN(cap)||Number(cap)<=0){
+    e4.innerText="Enter valid capacity";
+    ok=false;
+  }
+  if(st===""||isNaN(st)||Number(st)<0||Number(st)>Number(cap)){
+    e5.innerText="Invalid stock value";
+    ok=false;
+  }
+
+  if(!ok)return;
+
+  let obj={name,cropName,t,cap:Number(cap),st:Number(st)};
+
+  editIndex===-1?records.push(obj):records[editIndex]=obj;
+  editIndex=-1;
+
+  wname.value=crop.value=capacity.value=stock.value="";
+  type.value="";
+  render();
+}
+
+function render(){
+  tbody.innerHTML="";
+  records.forEach((r,i)=>{
+    tbody.innerHTML+=`
+      <tr>
+        <td>${r.name}</td>
+        <td>${r.cropName}</td>
+        <td>${r.t}</td>
+        <td>${r.st}</td>
+        <td>${r.cap}</td>
+        <td>
+          <button class="action view" onclick="view(${i})">View</button>
+          <button class="action edit" onclick="edit(${i})">Edit</button>
+          <button class="action delete" onclick="del(${i})">Delete</button>
+        </td>
+      </tr>
+    `;
+  });
+}
+
+function edit(i){
+  let r=records[i];
+  wname.value=r.name;
+  crop.value=r.cropName;
+  type.value=r.t;
+  capacity.value=r.cap;
+  stock.value=r.st;
+  editIndex=i;
+}
+
+function del(i){
+  if(confirm("Delete this warehouse record?")){
+    records.splice(i,1);
+    render();
+  }
+}
+
+function view(i){
+  let r=records[i];
+  alert(`Warehouse : ${r.name}
+Crop : ${r.cropName}
+Type : ${r.t}
+Stock : ${r.st} Tons
+Capacity : ${r.cap} Tons`);
+}
+</script>
+
+</body>
+</html>

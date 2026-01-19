@@ -1,0 +1,309 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Soil Records | Smart Farm</title>
+
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">
+
+<style>
+*{box-sizing:border-box;font-family:'Poppins',sans-serif}
+
+body{
+  min-height:100vh;
+  padding:30px;
+  background:linear-gradient(rgba(0,0,0,.35),rgba(0,0,0,.35)),
+  url("../images/img7.jpg") center/cover fixed;
+}
+
+.container{
+  max-width:1200px;
+  margin:auto;
+  display:grid;
+  grid-template-columns:380px 1fr;
+  gap:30px;
+}
+
+.card{
+  background:rgba(255,255,255,.95);
+  border-radius:26px;
+  padding:28px;
+  box-shadow:0 20px 45px rgba(0,0,0,.25);
+}
+
+h2{
+  text-align:center;
+  color:white;
+  padding:14px;
+  border-radius:16px;
+  margin-bottom:22px;
+  font-weight:800;
+  background:linear-gradient(135deg,#1b5e20,#66bb6a);
+}
+
+label{
+  display:block;
+  margin-top:14px;
+  font-weight:700;
+  color:#2e7d32;
+}
+
+input{
+  width:100%;
+  padding:12px;
+  margin-top:6px;
+  border-radius:14px;
+  border:1px solid #a5d6a7;
+  font-weight:600;
+  background:#f1f8e9;
+}
+
+input:focus{
+  outline:none;
+  border-color:#43a047;
+  box-shadow:0 0 6px #a5d6a7;
+}
+
+small{
+  color:#d32f2f;
+  font-weight:700;
+  font-size:12px
+}
+
+.invalid{
+  border:2px solid #d32f2f !important;
+  background:#ffebee
+}
+
+button{
+  width:100%;
+  margin-top:22px;
+  padding:14px;
+  border:none;
+  border-radius:30px;
+  background:linear-gradient(135deg,#2e7d32,#66bb6a);
+  color:white;
+  font-weight:800;
+  cursor:pointer;
+}
+
+.table-container{overflow-x:auto}
+
+table{
+  width:100%;
+  border-collapse:collapse
+}
+
+thead th{
+  background:linear-gradient(135deg,#1b5e20,#66bb6a);
+  color:white;
+  padding:12px;
+}
+
+tbody td{
+  padding:10px;
+  text-align:center;
+  background:#f1f8e9;
+  font-weight:600;
+}
+
+tbody tr:nth-child(even) td{
+  background:#e8f5e9
+}
+
+.action{
+  padding:6px 12px;
+  border:none;
+  border-radius:12px;
+  font-size:12px;
+  font-weight:700;
+  cursor:pointer;
+  margin:2px;
+}
+
+.view{background:#ffb300}
+.edit{background:#2e7d32;color:white}
+.delete{background:#c62828;color:white}
+
+@media(max-width:900px){
+  .container{grid-template-columns:1fr}
+}
+</style>
+</head>
+
+<body>
+
+<div class="container">
+
+<div class="card">
+<h2>🌱 Soil Test Entry</h2>
+
+<label>Plot Name</label>
+<input id="plot"><small id="e1"></small>
+
+<label>pH Level</label>
+<input type="number" id="ph"><small id="e2"></small>
+
+<label>Moisture (%)</label>
+<input type="number" id="moisture"><small id="e3"></small>
+
+<label>Nitrogen</label>
+<input type="number" id="n"><small id="e4"></small>
+
+<label>Phosphorus</label>
+<input type="number" id="p"><small id="e5"></small>
+
+<label>Potassium</label>
+<input type="number" id="k"><small id="e6"></small>
+
+<label>Salinity</label>
+<input type="number" id="salinity"><small id="e7"></small>
+
+<button onclick="save()">Save / Update</button>
+</div>
+
+<div class="card">
+<h2>📋 Soil Records</h2>
+<div class="table-container">
+<table>
+<thead>
+<tr>
+<th>Plot</th>
+<th>pH</th>
+<th>Moisture</th>
+<th>N</th>
+<th>P</th>
+<th>K</th>
+<th>Salinity</th>
+<th>Action</th>
+</tr>
+</thead>
+<tbody id="tbody"></tbody>
+</table>
+</div>
+</div>
+
+</div>
+
+<script>
+let records=[];
+let editIndex=-1;
+
+const plot=document.getElementById("plot");
+const ph=document.getElementById("ph");
+const moisture=document.getElementById("moisture");
+const n=document.getElementById("n");
+const p=document.getElementById("p");
+const k=document.getElementById("k");
+const salinity=document.getElementById("salinity");
+
+const tbody=document.getElementById("tbody");
+const errors=[e1,e2,e3,e4,e5,e6,e7];
+
+function clearErrors(){
+  errors.forEach(e=>e.innerText="");
+  document.querySelectorAll(".invalid").forEach(i=>i.classList.remove("invalid"));
+}
+
+function save(){
+  clearErrors();
+  let ok=true;
+
+  if(plot.value.length<3){
+    e1.innerText="Min 3 characters";
+    plot.classList.add("invalid");
+    ok=false
+  }
+  if(ph.value<0||ph.value>14){
+    e2.innerText="0–14 only";
+    ph.classList.add("invalid");
+    ok=false
+  }
+  if(moisture.value<0){
+    e3.innerText="Invalid";
+    moisture.classList.add("invalid");
+    ok=false
+  }
+
+  if(!ok) return;
+
+  const data={
+    plot:plot.value,
+    ph:ph.value,
+    moisture:moisture.value,
+    n:n.value,
+    p:p.value,
+    k:k.value,
+    salinity:salinity.value
+  };
+
+  if(editIndex===-1){
+    records.push(data);
+  }else{
+    records[editIndex]=data;
+    editIndex=-1;
+  }
+
+  plot.value="";
+  ph.value="";
+  moisture.value="";
+  n.value="";
+  p.value="";
+  k.value="";
+  salinity.value="";
+  render();
+}
+
+function render(){
+  tbody.innerHTML="";
+  records.forEach((r,i)=>{
+    tbody.innerHTML+=`
+    <tr>
+      <td>${r.plot}</td>
+      <td>${r.ph}</td>
+      <td>${r.moisture}%</td>
+      <td>${r.n}</td>
+      <td>${r.p}</td>
+      <td>${r.k}</td>
+      <td>${r.salinity}</td>
+      <td>
+        <button class="action view" onclick="view(${i})">View</button>
+        <button class="action edit" onclick="edit(${i})">Edit</button>
+        <button class="action delete" onclick="del(${i})">Delete</button>
+      </td>
+    </tr>`;
+  });
+}
+
+function view(i){
+  alert(
+`Plot: ${records[i].plot}
+pH: ${records[i].ph}
+Moisture: ${records[i].moisture}%
+N:${records[i].n} P:${records[i].p} K:${records[i].k}
+Salinity:${records[i].salinity}`
+  );
+}
+
+function edit(i){
+  const r=records[i];
+  plot.value=r.plot;
+  ph.value=r.ph;
+  moisture.value=r.moisture;
+  n.value=r.n;
+  p.value=r.p;
+  k.value=r.k;
+  salinity.value=r.salinity;
+  editIndex=i;
+}
+
+function del(i){
+  if(confirm("Delete record?")){
+    records.splice(i,1);
+    render();
+  }
+}
+</script>
+
+</body>
+</html>

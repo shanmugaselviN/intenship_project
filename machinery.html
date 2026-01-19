@@ -1,0 +1,301 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Machinery | Smart Farm</title>
+
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+
+<style>
+*{box-sizing:border-box;font-family:'Poppins',sans-serif;}
+
+body{
+  min-height:100vh;
+  padding:30px;
+  background:linear-gradient(rgba(0,0,0,.25),rgba(0,0,0,.25)),
+             url("../images/img7.jpg") center/cover fixed;
+}
+
+.container{
+  max-width:1200px;
+  margin:auto;
+  display:grid;
+  grid-template-columns:420px 1fr;
+  gap:32px;
+}
+
+.card{
+  background:rgba(255,255,255,.96);
+  padding:28px;
+  border-radius:30px;
+  box-shadow:0 22px 50px rgba(0,0,0,.25);
+}
+
+h2{
+  text-align:center;
+  font-size:22px;
+  font-weight:800;
+  letter-spacing:.5px;
+  color:white;
+  padding:16px;
+  border-radius:22px;
+  margin-bottom:24px;
+  background:linear-gradient(135deg,#1b5e20,#66bb6a);
+}
+
+label{
+  display:block;
+  margin-top:14px;
+  font-weight:700;
+  color:#2e7d32;
+}
+
+input,select,textarea{
+  width:100%;
+  margin-top:6px;
+  padding:14px;
+  border-radius:16px;
+  border:1.8px solid #c8e6c9;
+  background:#f9fff9;
+  font-weight:600;
+  transition:.3s;
+}
+
+input::placeholder{font-weight:500;color:#8bc34a;}
+
+input:focus,select:focus,textarea:focus{
+  outline:none;
+  border-color:#2e7d32;
+  box-shadow:0 0 0 3px rgba(46,125,50,.15);
+}
+
+.invalid{
+  border-color:#d32f2f!important;
+  box-shadow:0 0 0 3px rgba(211,47,47,.15);
+  background:#ffebee;
+}
+
+small{
+  font-size:12px;
+  font-weight:700;
+  color:#d32f2f;
+}
+
+button{
+  width:100%;
+  margin-top:28px;
+  padding:16px;
+  border:none;
+  border-radius:34px;
+  background:linear-gradient(135deg,#43a047,#1b5e20);
+  color:white;
+  font-size:16px;
+  font-weight:800;
+  letter-spacing:.5px;
+  cursor:pointer;
+  transition:.3s;
+}
+
+button:hover{
+  transform:translateY(-3px);
+  box-shadow:0 12px 25px rgba(67,160,71,.4);
+}
+
+table{
+  width:100%;
+  border-collapse:collapse;
+  font-size:14px;
+  border-radius:20px;
+  overflow:hidden;
+}
+
+thead th{
+  background:linear-gradient(135deg,#004d40,#2e7d32);
+  color:white;
+  padding:14px;
+  font-weight:800;
+  text-align:center;
+}
+
+tbody td{
+  padding:12px;
+  text-align:center;
+  font-weight:600;
+  background:#f1f8e9;
+  border-bottom:1px solid #c8e6c9;
+}
+
+tbody tr:nth-child(even) td{background:#e8f5e9;}
+tbody tr:hover td{background:#dcedc8;}
+
+.badge{
+  padding:6px 16px;
+  border-radius:20px;
+  font-weight:800;
+  font-size:12px;
+}
+
+.Idle{background:#81c784;}
+.Active{background:#fbc02d;color:black;}
+.Maintenance{background:#ef5350;color:white;}
+
+.action{
+  padding:6px 12px;
+  border:none;
+  border-radius:16px;
+  font-size:12px;
+  font-weight:700;
+  cursor:pointer;
+  margin:2px;
+  color:white;
+}
+
+.edit{background:#2e7d32;}
+.delete{background:#c62828;}
+
+@media(max-width:900px){
+  .container{grid-template-columns:1fr;}
+}
+</style>
+</head>
+
+<body>
+
+<div class="container">
+
+<div class="card">
+<h2>🚜 Machinery Entry</h2>
+
+<label>Machine Name</label>
+<input id="machine" placeholder="Eg: John Deere Tractor">
+<small id="mErr"></small>
+
+<label>Type</label>
+<select id="type">
+<option value="">Select Type</option>
+<option>Tractor</option>
+<option>Harvester</option>
+<option>Plough</option>
+<option>Sprayer</option>
+</select>
+<small id="tErr"></small>
+
+<label>Status</label>
+<select id="status">
+<option value="">Select Status</option>
+<option>Idle</option>
+<option>Active</option>
+<option>Maintenance</option>
+</select>
+<small id="sErr"></small>
+
+<label>Assigned Farmer</label>
+<input id="farmer" placeholder="Farmer Name">
+<small id="fErr"></small>
+
+<label>Remarks</label>
+<textarea id="remarks" placeholder="Condition / usage notes"></textarea>
+<small id="rErr"></small>
+
+<button onclick="saveMachine()">Save Machinery</button>
+</div>
+
+<div class="card">
+<h2>📋 Machinery Records</h2>
+
+<table>
+<thead>
+<tr>
+<th>Machine</th>
+<th>Type</th>
+<th>Status</th>
+<th>Farmer</th>
+<th>Remarks</th>
+<th>Action</th>
+</tr>
+</thead>
+<tbody id="tbody"></tbody>
+</table>
+</div>
+
+</div>
+
+<script>
+const fields=["machine","type","status","farmer","remarks"];
+const errors=["mErr","tErr","sErr","fErr","rErr"];
+const tbody=document.getElementById("tbody");
+
+let machines=[],editIndex=-1;
+
+function clearErrors(){
+  errors.forEach(e=>document.getElementById(e).innerText="");
+  fields.forEach(f=>document.getElementById(f).classList.remove("invalid"));
+}
+
+function saveMachine(){
+  clearErrors();
+  let ok=true;
+
+  fields.forEach((f,i)=>{
+    let el=document.getElementById(f);
+    if(!el.value.trim()){
+      document.getElementById(errors[i]).innerText="This field is required";
+      el.classList.add("invalid");
+      ok=false;
+    }
+  });
+  if(!ok)return;
+
+  let data={
+    machine:machine.value,
+    type:type.value,
+    status:status.value,
+    farmer:farmer.value,
+    remarks:remarks.value
+  };
+
+  editIndex===-1?machines.push(data):machines[editIndex]=data;
+  editIndex=-1;
+
+  fields.forEach(f=>document.getElementById(f).value="");
+  render();
+}
+
+function render(){
+  tbody.innerHTML="";
+  machines.forEach((m,i)=>{
+    tbody.innerHTML+=`
+    <tr>
+      <td>${m.machine}</td>
+      <td>${m.type}</td>
+      <td><span class="badge ${m.status}">${m.status}</span></td>
+      <td>${m.farmer}</td>
+      <td>${m.remarks}</td>
+      <td>
+        <button class="action edit" onclick="editMachine(${i})">Edit</button>
+        <button class="action delete" onclick="delMachine(${i})">Delete</button>
+      </td>
+    </tr>`;
+  });
+}
+
+function editMachine(i){
+  let m=machines[i];
+  machine.value=m.machine;
+  type.value=m.type;
+  status.value=m.status;
+  farmer.value=m.farmer;
+  remarks.value=m.remarks;
+  editIndex=i;
+}
+
+function delMachine(i){
+  if(confirm("Delete this machinery record?")){
+    machines.splice(i,1);
+    render();
+  }
+}
+</script>
+
+</body>
+</html>

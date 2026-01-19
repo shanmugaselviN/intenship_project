@@ -1,0 +1,245 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Farmer Management</title>
+
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">
+
+<style>
+*{font-family:'Poppins',sans-serif;}
+body{
+  min-height:100vh;
+  display:flex;
+  justify-content:center;
+  align-items:flex-start;
+  padding-top:30px;
+  background-image:url("../images/img7.jpg");
+  background-size:cover;
+  background-position:center;
+  background-repeat:no-repeat;
+  background-attachment:fixed;
+}
+.container{display:flex;gap:25px;}
+.card{
+  background:#fff;
+  padding:25px;
+  border-radius:15px;
+  box-shadow:0 8px 20px rgba(0,0,0,0.1);
+}
+.form-card{width:35%;}
+.table-card{width:65%;}
+h2{color:#2e7d32;font-weight:700;text-align:center;}
+label{font-weight:600;margin-top:15px;display:block;}
+input,select{
+  width:100%;
+  padding:10px;
+  margin-top:5px;
+  border-radius:8px;
+  border:1px solid #ccc;
+}
+small{color:red;font-weight:600;}
+button{
+  margin-top:20px;
+  width:100%;
+  padding:12px;
+  border:none;
+  border-radius:25px;
+  background:linear-gradient(to right,#43a047,#66bb6a);
+  color:white;
+  font-size:16px;
+  font-weight:700;
+  cursor:pointer;
+}
+table{
+  width:100%;
+  border-collapse:collapse;
+  margin-top:20px;
+}
+thead{
+  background:linear-gradient(to right,#388e3c,#66bb6a);
+  color:white;
+}
+th,td{
+  padding:10px;
+  text-align:center;
+}
+tbody tr:nth-child(even){background:#f1f8e9;}
+.action-btn{
+  padding:6px 12px;
+  border:none;
+  border-radius:6px;
+  color:white;
+  font-weight:600;
+  cursor:pointer;
+}
+.edit{background:#1976d2;}
+.delete{background:#d32f2f;}
+.view{background:#f9a825;}
+</style>
+</head>
+
+<body>
+
+<div class="container">
+
+<div class="card form-card">
+<h2>🌾 Farmer Details</h2>
+
+<label>Farmer Name</label>
+<input type="text" id="farmerName">
+<small id="nameErr"></small>
+
+<label>Mobile Number</label>
+<input type="text" id="farmerMobile">
+<small id="mobileErr"></small>
+
+<label>District</label>
+<input type="text" id="farmerDistrict">
+<small id="districtErr"></small>
+
+<label>Land (Acres)</label>
+<input type="number" id="farmerLand">
+<small id="landErr"></small>
+
+<label>Crop</label>
+<select id="farmerCrop">
+<option value="">Select Crop</option>
+<option>Rice</option>
+<option>Wheat</option>
+<option>Sugarcane</option>
+<option>Maize</option>
+</select>
+<small id="cropErr"></small>
+
+<button onclick="saveFarmer()">Save Farmer</button>
+</div>
+
+<div class="card table-card">
+<h2>📋 Farmer Records</h2>
+<table>
+<thead>
+<tr>
+<th>Name</th>
+<th>Mobile</th>
+<th>District</th>
+<th>Land</th>
+<th>Crop</th>
+<th>Action</th>
+</tr>
+</thead>
+<tbody id="tableBody"></tbody>
+</table>
+</div>
+
+</div>
+
+<script>
+let farmers=[];
+let editIndex=-1;
+
+function validate(){
+  let valid=true;
+
+  let name=document.getElementById("farmerName").value.trim();
+  let mobile=document.getElementById("farmerMobile").value.trim();
+  let district=document.getElementById("farmerDistrict").value.trim();
+  let land=document.getElementById("farmerLand").value.trim();
+  let crop=document.getElementById("farmerCrop").value;
+
+  document.querySelectorAll("small").forEach(e=>e.innerText="");
+
+  if(!/^[A-Za-z ]+$/.test(name)){
+    nameErr.innerText="Only letters allowed";
+    valid=false;
+  }
+  if(!/^[0-9]{10}$/.test(mobile)){
+    mobileErr.innerText="Enter 10 digit number";
+    valid=false;
+  }
+  if(!/^[A-Za-z ]+$/.test(district)){
+    districtErr.innerText="Only letters allowed";
+    valid=false;
+  }
+  if(land<=0){
+    landErr.innerText="Enter valid land";
+    valid=false;
+  }
+  if(crop===""){
+    cropErr.innerText="Select crop";
+    valid=false;
+  }
+  return valid;
+}
+
+function saveFarmer(){
+  if(!validate()) return;
+
+  let farmer={
+    name:farmerName.value,
+    mobile:farmerMobile.value,
+    district:farmerDistrict.value,
+    land:farmerLand.value,
+    crop:farmerCrop.value
+  };
+
+  if(editIndex==-1) farmers.push(farmer);
+  else farmers[editIndex]=farmer;
+
+  editIndex=-1;
+  clearForm();
+  display();
+}
+
+function display(){
+  tableBody.innerHTML="";
+  farmers.forEach((f,i)=>{
+    tableBody.innerHTML+=`
+    <tr>
+      <td>${f.name}</td>
+      <td>${f.mobile}</td>
+      <td>${f.district}</td>
+      <td>${f.land}</td>
+      <td>${f.crop}</td>
+      <td>
+        <button class="action-btn view" onclick="viewFarmer(${i})">View</button>
+        <button class="action-btn edit" onclick="editFarmer(${i})">Edit</button>
+        <button class="action-btn delete" onclick="deleteFarmer(${i})">Delete</button>
+      </td>
+    </tr>`;
+  });
+}
+
+function editFarmer(i){
+  let f=farmers[i];
+  farmerName.value=f.name;
+  farmerMobile.value=f.mobile;
+  farmerDistrict.value=f.district;
+  farmerLand.value=f.land;
+  farmerCrop.value=f.crop;
+  editIndex=i;
+}
+
+function deleteFarmer(i){
+  if(confirm("Delete this farmer?")){
+    farmers.splice(i,1);
+    display();
+  }
+}
+
+function viewFarmer(i){
+  let f=farmers[i];
+  alert(`Name: ${f.name}\nMobile: ${f.mobile}\nDistrict: ${f.district}\nLand: ${f.land}\nCrop: ${f.crop}`);
+}
+
+function clearForm(){
+  farmerName.value="";
+  farmerMobile.value="";
+  farmerDistrict.value="";
+  farmerLand.value="";
+  farmerCrop.value="";
+}
+</script>
+
+</body>
+</html>

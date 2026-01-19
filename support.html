@@ -1,0 +1,296 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Support | Smart Farm</title>
+
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Playfair+Display:wght@600;700&display=swap" rel="stylesheet">
+
+<style>
+*{box-sizing:border-box;font-family:'Inter',sans-serif}
+
+body{
+  min-height:100vh;
+  display:flex;
+  justify-content:center;
+  align-items:flex-start;
+  padding:30px;
+  background:linear-gradient(rgba(0,0,0,.35),rgba(0,0,0,.35)),
+             url("../images/img7.jpg") center/cover fixed;
+}
+
+.main{
+  width:1100px;
+  display:grid;
+  grid-template-columns:380px 1fr;
+  gap:32px;
+}
+
+.card{
+  background:rgba(255,255,255,.94);
+  backdrop-filter:blur(12px);
+  border-radius:30px;
+  padding:30px;
+  box-shadow:0 25px 60px rgba(0,0,0,.25);
+}
+
+h2{
+  font-family:'Playfair Display',serif;
+  text-align:center;
+  color:#1b5e20;
+  margin-bottom:22px;
+  letter-spacing:1px;
+}
+
+label{
+  font-weight:600;
+  color:#2e7d32;
+  margin-top:14px;
+  display:block;
+}
+
+input,select,textarea{
+  width:100%;
+  padding:13px;
+  margin-top:6px;
+  border-radius:16px;
+  border:1px solid #c5e1a5;
+  font-size:14px;
+}
+
+textarea{resize:none;height:95px}
+
+input:focus,select:focus,textarea:focus{
+  outline:none;
+  border-color:#43a047;
+  box-shadow:0 0 8px #a5d6a7;
+}
+
+small{
+  color:#d32f2f;
+  font-weight:600;
+  font-size:13px;
+}
+
+.save{
+  margin-top:26px;
+  padding:12px 40px;
+  border:none;
+  border-radius:40px;
+  background:linear-gradient(135deg,#2e7d32,#66bb6a);
+  color:white;
+  font-weight:700;
+  cursor:pointer;
+  display:block;
+  margin:auto;
+  letter-spacing:.5px;
+}
+
+.save:hover{transform:scale(1.08)}
+
+table{
+  width:100%;
+  border-collapse:separate;
+  border-spacing:0 16px;
+}
+
+thead tr{
+  background:linear-gradient(135deg,#1b5e20,#66bb6a);
+}
+
+th{
+  font-family:'Playfair Display',serif;
+  color:white;
+  padding:16px;
+  text-transform:uppercase;
+  letter-spacing:1px;
+  font-size:14px;
+}
+
+tbody tr{
+  background:linear-gradient(135deg,#f1f8e9,#e8f5e9);
+  box-shadow:0 12px 28px rgba(0,0,0,.18);
+  transition:.3s;
+  border-radius:18px;
+}
+
+tbody tr:hover{
+  transform:translateY(-6px);
+  background:#dcedc8;
+}
+
+td{
+  padding:16px;
+  text-align:center;
+  font-weight:500;
+  color:#2e7d32;
+  font-size:14px;
+}
+
+.action{
+  padding:8px 18px;
+  border:none;
+  border-radius:20px;
+  color:white;
+  font-weight:600;
+  cursor:pointer;
+}
+
+.view{background:#039be5}
+.edit{background:#7cb342}
+.delete{background:#e53935}
+
+@media(max-width:900px){
+  .main{grid-template-columns:1fr;width:100%}
+}
+</style>
+</head>
+
+<body>
+
+<div class="main">
+
+<div class="card">
+<h2>📞 Support Request</h2>
+
+<label>Farmer Name</label>
+<input id="fname">
+<small id="e1"></small>
+
+<label>Issue Type</label>
+<select id="issue">
+<option value="">Select Issue</option>
+<option>Crop Disease</option>
+<option>Machine Problem</option>
+<option>Soil Issue</option>
+<option>Warehouse Issue</option>
+</select>
+<small id="e2"></small>
+
+<label>Priority</label>
+<select id="priority">
+<option value="">Select Priority</option>
+<option>Low</option>
+<option>Medium</option>
+<option>High</option>
+</select>
+<small id="e3"></small>
+
+<label>Description</label>
+<textarea id="desc"></textarea>
+<small id="e4"></small>
+
+<button class="save" onclick="save()">Submit</button>
+</div>
+
+<div class="card">
+<h2>🗂 Support Records</h2>
+
+<table>
+<thead>
+<tr>
+<th>Farmer</th>
+<th>Issue</th>
+<th>Priority</th>
+<th>Description</th>
+<th>Action</th>
+</tr>
+</thead>
+<tbody id="tbody"></tbody>
+</table>
+</div>
+
+</div>
+
+<script>
+let records=[],editIndex=-1;
+
+const fname=document.getElementById("fname");
+const issue=document.getElementById("issue");
+const priority=document.getElementById("priority");
+const desc=document.getElementById("desc");
+
+const e1=document.getElementById("e1");
+const e2=document.getElementById("e2");
+const e3=document.getElementById("e3");
+const e4=document.getElementById("e4");
+
+const tbody=document.getElementById("tbody");
+
+function onlyText(v){
+  return /^[A-Za-z ]+$/.test(v);
+}
+
+function save(){
+  e1.innerText=e2.innerText=e3.innerText=e4.innerText="";
+
+  let n=fname.value.trim();
+  let i=issue.value;
+  let p=priority.value;
+  let d=desc.value.trim();
+
+  let ok=true;
+
+  if(n===""||!onlyText(n)){e1.innerText="Only letters allowed";ok=false}
+  if(i===""){e2.innerText="Select issue";ok=false}
+  if(p===""){e3.innerText="Select priority";ok=false}
+  if(d.length<5){e4.innerText="Minimum 5 characters";ok=false}
+
+  if(!ok)return;
+
+  let obj={n,i,p,d};
+
+  editIndex===-1?records.push(obj):records[editIndex]=obj;
+  editIndex=-1;
+
+  fname.value=desc.value="";
+  issue.value=priority.value="";
+  render();
+}
+
+function render(){
+  tbody.innerHTML="";
+  records.forEach((r,i)=>{
+    tbody.innerHTML+=`
+      <tr>
+        <td>${r.n}</td>
+        <td>${r.i}</td>
+        <td>${r.p}</td>
+        <td>${r.d}</td>
+        <td>
+          <button class="action view" onclick="view(${i})">View</button>
+          <button class="action edit" onclick="edit(${i})">Edit</button>
+          <button class="action delete" onclick="del(${i})">Delete</button>
+        </td>
+      </tr>
+    `;
+  });
+}
+
+function edit(i){
+  let r=records[i];
+  fname.value=r.n;
+  issue.value=r.i;
+  priority.value=r.p;
+  desc.value=r.d;
+  editIndex=i;
+}
+
+function del(i){
+  if(confirm("Delete this request?")){
+    records.splice(i,1);
+    render();
+  }
+}
+
+function view(i){
+  let r=records[i];
+  alert(`Farmer : ${r.n}
+Issue : ${r.i}
+Priority : ${r.p}
+Description : ${r.d}`);
+}
+</script>
+
+</body>
+</html>

@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Login | Smart Farm</title>
+
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet">
+
+<style>
+*{
+  margin:0;
+  padding:0;
+  box-sizing:border-box;
+  font-family:'Poppins',sans-serif;
+}
+
+body{
+  height:100vh;
+  display:flex;
+  justify-content:center;
+  align-items:center;
+  background:url("../images/img9.jpg") no-repeat center/cover;
+}
+
+.card{
+  width:420px;
+  padding:35px;
+  background:rgba(255,255,255,0.96);
+  border-radius:20px;
+  box-shadow:0 20px 40px rgba(0,0,0,0.35);
+}
+
+h2{
+  text-align:center;
+  color:#1b5e20;
+  margin-bottom:20px;
+}
+
+input{
+  width:100%;
+  padding:12px;
+  border-radius:25px;
+  border:1px solid #aaa;
+  margin-top:10px;
+  outline:none;
+}
+
+small{
+  color:red;
+  font-size:12px;
+  margin-left:10px;
+  display:block;
+  height:16px;
+}
+
+button{
+  width:100%;
+  margin-top:20px;
+  padding:12px;
+  border:none;
+  border-radius:30px;
+  background:linear-gradient(135deg,#66bb6a,#43a047);
+  color:white;
+  font-weight:600;
+  cursor:pointer;
+}
+
+.success{
+  margin-top:15px;
+  color:green;
+  font-size:14px;
+  text-align:center;
+}
+
+.error{
+  margin-top:15px;
+  color:red;
+  font-size:14px;
+  text-align:center;
+}
+</style>
+</head>
+
+<body>
+
+<div class="card">
+  <h2>🔐 Login</h2>
+
+  <input type="text" id="email" placeholder="Email">
+  <small id="emailError"></small>
+
+  <input type="password" id="password" placeholder="Password">
+  <small id="passError"></small>
+
+  <button onclick="login()">Login</button>
+
+  <div class="success" id="successMsg"></div>
+  <div class="error" id="errorMsg"></div>
+</div>
+
+<script>
+window.onload = function(){
+  const storedData = JSON.parse(localStorage.getItem("userData"));
+  if(storedData){
+    document.getElementById("email").value = storedData.email;
+    document.getElementById("password").value = storedData.password;
+  }
+}
+
+function login(){
+  const email = document.getElementById("email").value.trim();
+  const password = document.getElementById("password").value.trim();
+
+  const emailError = document.getElementById("emailError");
+  const passError = document.getElementById("passError");
+  const successMsg = document.getElementById("successMsg");
+  const errorMsg = document.getElementById("errorMsg");
+
+  emailError.textContent = "";
+  passError.textContent = "";
+  successMsg.textContent = "";
+  errorMsg.textContent = "";
+
+  if(email === ""){
+    emailError.textContent = "❌ Email required";
+    return;
+  }
+
+  if(password === ""){
+    passError.textContent = "❌ Password required";
+    return;
+  }
+
+  const storedData = JSON.parse(localStorage.getItem("userData"));
+
+  if(!storedData){
+    errorMsg.textContent = "⚠️ No account found. Please sign up first!";
+    return;
+  }
+
+  if(email === storedData.email && password === storedData.password){
+    successMsg.textContent =
+      "🎉 Login Successful! Welcome " + storedData.username + " 🌱";
+
+    setTimeout(() => {
+        window.location.href = "dashboard.html";
+    }, 1000);
+  }else{
+    errorMsg.textContent =
+      "❌ Invalid email or password. Try again!";
+  }
+}
+</script>
+
+</body>
+</html>

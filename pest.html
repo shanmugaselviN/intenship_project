@@ -1,0 +1,297 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Pest Alert | Smart Farm</title>
+
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;800&display=swap" rel="stylesheet">
+
+<style>
+*{box-sizing:border-box;font-family:'Poppins',sans-serif;}
+
+body{
+  min-height:100vh;
+  display:flex;
+  justify-content:center;
+  align-items:flex-start;
+  padding-top:30px;
+  background-image:url("../images/img10.jpg");
+  background-size:cover;
+  background-position:center;
+  background-repeat:no-repeat;
+  background-attachment:fixed;
+}
+
+.container{
+  display:grid;
+  grid-template-columns:380px 1fr;
+  gap:30px;
+}
+
+.card{
+  background:white;
+  padding:25px;
+  border-radius:28px;
+  box-shadow:0 18px 45px rgba(0,0,0,0.2);
+}
+
+h2{
+  text-align:center;
+  font-weight:800;
+  margin-bottom:20px;
+  padding:14px;
+  border-radius:20px;
+  color:white;
+  background:linear-gradient(135deg,#1b5e20,#66bb6a);
+}
+
+label{
+  display:block;
+  margin-top:14px;
+  font-weight:700;
+  color:#2e7d32;
+}
+
+input,select,textarea{
+  width:100%;
+  margin-top:6px;
+  padding:12px;
+  border-radius:14px;
+  border:1px solid #a5d6a7;
+  font-weight:600;
+}
+
+textarea{
+  resize:none;
+  height:80px;
+}
+
+small{
+  color:#d32f2f;
+  font-weight:700;
+}
+
+button{
+  width:100%;
+  margin-top:22px;
+  padding:14px;
+  border:none;
+  border-radius:30px;
+  background:linear-gradient(135deg,#2e7d32,#66bb6a);
+  color:white;
+  font-size:16px;
+  font-weight:800;
+  cursor:pointer;
+}
+
+table{
+  width:100%;
+  border-collapse:collapse;
+  font-size:14px;
+}
+
+thead th{
+  background:linear-gradient(135deg,#004d40,#2e7d32);
+  color:white;
+  padding:10px;
+  font-weight:800;
+  text-align:center;
+  border:1px solid #c8e6c9;
+}
+
+tbody td{
+  padding:10px;
+  background:#e8f5e9;
+  font-weight:700;
+  text-align:center;
+  border:1px solid #c8e6c9;
+}
+
+tbody tr:hover td{
+  background:#dcedc8;
+  transition:all 0.2s ease-in-out;
+}
+
+.badge{
+  padding:4px 10px;
+  border-radius:12px;
+  font-weight:700;
+  font-size:12px;
+}
+
+.Low{background:#43a047;color:white;}
+.Medium{background:#f9a825;color:black;}
+.High{background:#c62828;color:white;}
+
+.action{
+  padding:6px 10px;
+  border:none;
+  border-radius:10px;
+  color:white;
+  font-weight:700;
+  font-size:12px;
+  cursor:pointer;
+}
+
+.view{background:#ffb300;color:black;}
+.edit{background:#2e7d32;}
+.delete{background:#c62828;}
+</style>
+</head>
+
+<body>
+
+<div class="container">
+
+<div class="card">
+<h2>🐛 Pest Alert Entry</h2>
+
+<label>Farmer Name</label>
+<input id="farmer">
+<small id="fErr"></small>
+
+<label>Crop Type</label>
+<select id="crop">
+<option value="">Select Crop</option>
+<option>Rice</option>
+<option>Maize</option>
+<option>Sugarcane</option>
+<option>Wheat</option>
+</select>
+<small id="cErr"></small>
+
+<label>Pest Name</label>
+<input id="pest">
+<small id="pErr"></small>
+
+<label>Severity Level</label>
+<select id="level">
+<option value="">Select Level</option>
+<option>Low</option>
+<option>Medium</option>
+<option>High</option>
+</select>
+<small id="lErr"></small>
+
+<label>Recommended Action</label>
+<textarea id="actionText"></textarea>
+<small id="aErr"></small>
+
+<button onclick="saveAlert()">Save Pest Alert</button>
+</div>
+
+<div class="card">
+<h2>🚨 Pest Alert Records</h2>
+
+<table>
+<thead>
+<tr>
+<th>Farmer</th>
+<th>Crop</th>
+<th>Pest</th>
+<th>Severity</th>
+<th>Action</th>
+</tr>
+</thead>
+<tbody id="tbody"></tbody>
+</table>
+</div>
+
+</div>
+
+<script>
+let alerts=[];
+let editIndex=-1;
+
+function saveAlert(){
+  ["fErr","cErr","pErr","lErr","aErr"].forEach(id=>{
+    document.getElementById(id).innerText="";
+  });
+
+  let farmerInput=document.getElementById("farmer");
+  let cropInput=document.getElementById("crop");
+  let pestInput=document.getElementById("pest");
+  let levelInput=document.getElementById("level");
+  let actionInput=document.getElementById("actionText");
+
+  let farmer=farmerInput.value.trim();
+  let crop=cropInput.value;
+  let pestName=pestInput.value.trim();
+  let severity=levelInput.value;
+  let solution=actionInput.value.trim();
+
+  let ok=true;
+  if(!farmer){fErr.innerText="Enter farmer name";ok=false;}
+  if(!crop){cErr.innerText="Select crop";ok=false;}
+  if(!pestName){pErr.innerText="Enter pest";ok=false;}
+  if(!severity){lErr.innerText="Select severity";ok=false;}
+  if(!solution){aErr.innerText="Enter solution";ok=false;}
+
+  if(!ok) return;
+
+  let data={farmer,crop,pestName,severity,solution};
+
+  if(editIndex===-1){
+    alerts.push(data);
+  }else{
+    alerts[editIndex]=data;
+    editIndex=-1;
+  }
+
+  farmerInput.value="";
+  cropInput.value="";
+  pestInput.value="";
+  levelInput.value="";
+  actionInput.value="";
+  render();
+}
+
+function render(){
+  tbody.innerHTML="";
+  alerts.forEach((a,i)=>{
+    tbody.innerHTML+=`
+    <tr>
+      <td>${a.farmer}</td>
+      <td>${a.crop}</td>
+      <td>${a.pestName}</td>
+      <td><span class="badge ${a.severity}">${a.severity}</span></td>
+      <td>
+        <button class="action view" onclick="viewAlert(${i})">View</button>
+        <button class="action edit" onclick="editAlert(${i})">Edit</button>
+        <button class="action delete" onclick="delAlert(${i})">Delete</button>
+      </td>
+    </tr>`;
+  });
+}
+
+function viewAlert(i){
+  let a=alerts[i];
+  alert(
+`Farmer : ${a.farmer}
+Crop   : ${a.crop}
+Pest   : ${a.pestName}
+Level  : ${a.severity}
+Action : ${a.solution}`
+  );
+}
+
+function editAlert(i){
+  let a=alerts[i];
+  farmer.value=a.farmer;
+  crop.value=a.crop;
+  pest.value=a.pestName;
+  level.value=a.severity;
+  actionText.value=a.solution;
+  editIndex=i;
+}
+
+function delAlert(i){
+  if(confirm("Delete this pest alert?")){
+    alerts.splice(i,1);
+    render();
+  }
+}
+</script>
+
+</body>
+</html>

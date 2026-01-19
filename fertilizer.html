@@ -1,0 +1,313 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Fertilizer Plan | Smart Farm</title>
+
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">
+
+<style>
+*{box-sizing:border-box;font-family:'Poppins',sans-serif;}
+
+body{
+  min-height:100vh;
+  margin:0;
+  padding:30px;
+  background-image:url("../images/img4.jpg");
+  background-size:cover;
+  background-position:center;
+  background-attachment:fixed;
+}
+
+.container{
+  max-width:1200px;
+  margin:auto;
+  display:grid;
+  grid-template-columns:380px 1fr;
+  gap:30px;
+}
+
+.card{
+  background:white;
+  padding:25px;
+  border-radius:26px;
+  box-shadow:0 18px 40px rgba(0,0,0,0.25);
+  transition:0.3s;
+  overflow:hidden;
+}
+.card:hover{transform:translateY(-4px);}
+
+h2{
+  text-align:center;
+  font-weight:800;
+  color:white;
+  margin-bottom:22px;
+  padding:14px;
+  border-radius:20px;
+  background:linear-gradient(135deg,#1b5e20,#66bb6a);
+}
+
+label{
+  font-weight:700;
+  margin-top:14px;
+  display:block;
+  font-size:14px;
+  color:#2e7d32;
+}
+input,select{
+  width:100%;
+  padding:12px;
+  margin-top:6px;
+  border-radius:14px;
+  border:1px solid #a5d6a7;
+  font-weight:600;
+  background:#f1f8e9;
+}
+small{color:#d32f2f;font-weight:700;font-size:12px;}
+
+button{
+  width:100%;
+  margin-top:22px;
+  padding:14px;
+  border:none;
+  border-radius:30px;
+  background:linear-gradient(135deg,#43a047,#2e7d32);
+  color:white;
+  font-size:16px;
+  font-weight:800;
+  cursor:pointer;
+  transition:0.3s;
+}
+button:hover{transform:scale(1.05);}
+
+.table-wrapper{
+  overflow-x:auto;
+}
+
+table{
+  width:100%;
+  border-collapse: collapse;
+  font-size:14px;
+}
+
+thead th{
+  background: linear-gradient(135deg,#1b5e20,#66bb6a);
+  color:white;
+  padding:10px;
+  font-weight:700;
+  border-radius:8px 8px 0 0;
+  text-align:center;
+  border: 1px solid #c8e6c9;
+}
+
+tbody td{
+  padding:10px;
+  background:#e8f5e9;
+  border: 1px solid #c8e6c9;
+  border-radius:4px;
+  font-weight:600;
+  text-align:center;
+  word-wrap:break-word;
+}
+
+tbody tr:hover td{
+  background:#dcedc8;
+  transform:scale(1.01);
+  box-shadow:0 2px 8px rgba(0,0,0,0.1);
+  transition:all 0.2s ease-in-out;
+}
+
+.level-badge{
+  padding:4px 10px;
+  border-radius:12px;
+  font-weight:700;
+  color:white;
+  font-size:12px;
+}
+.Low{background:#81c784;}
+.Medium{background:#4caf50;}
+.High{background:#2e7d32;}
+
+.action{
+  padding:4px 10px;
+  border:none;
+  border-radius:8px;
+  font-weight:600;
+  font-size:12px;
+  margin:2px;
+  cursor:pointer;
+}
+.view{background:#f9a825;color:#000;}
+.edit{background:#388e3c;color:white;}
+.delete{background:#d32f2f;color:white;}
+
+@media(max-width:900px){
+  .container{
+    grid-template-columns:1fr;
+  }
+  table, thead, tbody, th, td, tr{
+    display:block;
+  }
+  thead tr{
+    display:none;
+  }
+  tbody td{
+    display:flex;
+    justify-content:space-between;
+    padding:10px;
+    margin-bottom:12px;
+    background:#f1f8e9;
+  }
+  tbody td::before{
+    content:attr(data-label);
+    font-weight:700;
+    color:#2e7d32;
+  }
+}
+</style>
+</head>
+
+<body>
+
+<div class="container">
+
+<div class="card">
+<h2>🌿 Fertilizer Plan Entry</h2>
+
+<label>Plot Name</label>
+<input id="plotName">
+<small id="plotErr"></small>
+
+<label>Crop Type</label>
+<select id="cropType">
+<option value="">Select Crop</option>
+<option>Rice</option>
+<option>Wheat</option>
+<option>Sugarcane</option>
+<option>Maize</option>
+</select>
+<small id="cropErr"></small>
+
+<label>Nitrogen (kg/ha)</label>
+<input type="number" id="nitrogen">
+<small id="nErr"></small>
+
+<label>Phosphorus (kg/ha)</label>
+<input type="number" id="phosphorus">
+<small id="pErr"></small>
+
+<label>Potassium (kg/ha)</label>
+<input type="number" id="potassium">
+<small id="kErr"></small>
+
+<label>Fertilizer Level</label>
+<select id="level">
+<option value="">Select Level</option>
+<option>Low</option>
+<option>Medium</option>
+<option>High</option>
+</select>
+<small id="lErr"></small>
+
+<button onclick="saveFertilizer()">Save Fertilizer Plan</button>
+</div>
+
+<div class="card">
+<h2>📋 Fertilizer Records</h2>
+<div class="table-wrapper">
+<table>
+<thead>
+<tr>
+<th>Plot</th>
+<th>Crop</th>
+<th>N</th>
+<th>P</th>
+<th>K</th>
+<th>Level</th>
+<th>Action</th>
+</tr>
+</thead>
+<tbody id="tbody"></tbody>
+</table>
+</div>
+</div>
+
+</div>
+
+<script>
+let plans=[], edit=-1;
+
+function saveFertilizer(){
+  ["plotErr","cropErr","nErr","pErr","kErr","lErr"].forEach(id=>document.getElementById(id).innerText="");
+
+  let plot=document.getElementById("plotName").value.trim();
+  let crop=document.getElementById("cropType").value;
+  let n=document.getElementById("nitrogen").value;
+  let p=document.getElementById("phosphorus").value;
+  let k=document.getElementById("potassium").value;
+  let level=document.getElementById("level").value;
+
+  let ok=true;
+  if(plot==""){document.getElementById("plotErr").innerText="Enter plot name"; ok=false;}
+  if(crop==""){document.getElementById("cropErr").innerText="Select crop"; ok=false;}
+  if(n=="" || n<0){document.getElementById("nErr").innerText="Invalid N"; ok=false;}
+  if(p=="" || p<0){document.getElementById("pErr").innerText="Invalid P"; ok=false;}
+  if(k=="" || k<0){document.getElementById("kErr").innerText="Invalid K"; ok=false;}
+  if(level==""){document.getElementById("lErr").innerText="Select level"; ok=false;}
+  if(!ok)return;
+
+  let plan={plot,crop,n,p,k,level};
+  if(edit==-1) plans.push(plan); else { plans[edit]=plan; edit=-1; }
+
+  document.getElementById("plotName").value="";
+  document.getElementById("cropType").value="";
+  document.getElementById("nitrogen").value="";
+  document.getElementById("phosphorus").value="";
+  document.getElementById("potassium").value="";
+  document.getElementById("level").value="";
+
+  render();
+}
+
+function render(){
+  let tbody=document.getElementById("tbody");
+  tbody.innerHTML="";
+  plans.forEach((p,i)=>{
+    tbody.innerHTML+=`
+    <tr>
+      <td data-label="Plot">${p.plot}</td>
+      <td data-label="Crop">${p.crop}</td>
+      <td data-label="N">${p.n}</td>
+      <td data-label="P">${p.p}</td>
+      <td data-label="K">${p.k}</td>
+      <td data-label="Level"><span class="level-badge ${p.level}">${p.level}</span></td>
+      <td data-label="Action">
+        <button class="action view" onclick="alert('Viewing ${p.plot}')">View</button>
+        <button class="action edit" onclick="editPlan(${i})">Edit</button>
+        <button class="action delete" onclick="delPlan(${i})">Delete</button>
+      </td>
+    </tr>`;
+  });
+}
+
+function editPlan(i){
+  let p=plans[i];
+  document.getElementById("plotName").value=p.plot;
+  document.getElementById("cropType").value=p.crop;
+  document.getElementById("nitrogen").value=p.n;
+  document.getElementById("phosphorus").value=p.p;
+  document.getElementById("potassium").value=p.k;
+  document.getElementById("level").value=p.level;
+  edit=i;
+}
+
+function delPlan(i){
+  if(confirm("Delete this record?")){
+    plans.splice(i,1);
+    render();
+  }
+}
+</script>
+
+</body>
+</html>

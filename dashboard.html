@@ -1,0 +1,256 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Smart Farm Dashboard</title>
+
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600;700&family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+<style>
+*{
+  margin:0;
+  padding:0;
+  box-sizing:border-box;
+}
+
+body{
+  min-height:100vh;
+  font-family:'Poppins',sans-serif;
+  background-image:url("../images/img10.jpg");
+  background-size:cover;
+  background-position:center;
+  background-attachment:fixed;
+}
+
+.wrapper{
+  width:95%;
+  max-width:1150px;
+  margin:auto;
+  padding-top:30px;
+}
+
+.title-box{
+  text-align:center;
+  margin-bottom:10px;
+}
+.title-box h1{
+  font-family:'Playfair Display',serif;
+  font-size:36px;
+  font-weight:700;
+  color:#1b5e20;
+}
+.title-box p{
+  margin-top:6px;
+  font-size:18px;
+  font-weight:700;
+  letter-spacing:.5px;
+  color:#f5f5f5;
+}
+
+.top-modules{
+  display:flex;
+  flex-wrap:wrap;
+  justify-content:center;
+  gap:12px;
+  margin-bottom:30px;
+}
+.top-modules button{
+  padding:8px 18px;
+  border:none;
+  border-radius:22px;
+  background:linear-gradient(135deg,#66bb6a,#2e7d32);
+  color:white;
+  font-weight:700;
+  font-size:14px;
+  cursor:pointer;
+  transition:.3s;
+  box-shadow:0 4px 12px rgba(0,0,0,.2);
+}
+.top-modules button:hover{
+  transform:translateY(-3px);
+}
+
+.module-grid{
+  display:grid;
+  grid-template-columns:repeat(auto-fit,minmax(220px,1fr));
+  gap:28px;
+}
+
+.module-card{
+  background:#fff;
+  border-radius:20px;
+  padding:28px 22px;
+  text-align:center;
+  box-shadow:0 14px 32px rgba(0,0,0,.12);
+  transition:.35s ease;
+  cursor:pointer;
+  position:relative;
+  overflow:hidden;
+}
+.module-card::before{
+  content:'';
+  position:absolute;
+  top:0;
+  left:0;
+  width:100%;
+  height:5px;
+  background:linear-gradient(135deg,#66bb6a,#2e7d32);
+}
+.module-card:hover{
+  transform:translateY(-10px);
+  box-shadow:0 24px 48px rgba(0,0,0,.25);
+}
+
+.module-icon{
+  width:72px;
+  height:72px;
+  margin:12px auto 18px;
+  border-radius:18px;
+  background:#e8f5e9;
+  display:flex;
+  justify-content:center;
+  align-items:center;
+  font-size:34px;
+}
+
+.module-card h3{
+  font-family:'Playfair Display',serif;
+  font-size:20px;
+  font-weight:700;
+  color:#1b5e20;
+  margin-bottom:8px;
+}
+.module-card p{
+  font-size:14px;
+  font-weight:600;
+  color:#2e2e2e;
+  line-height:1.6;
+  margin-bottom:18px;
+}
+.module-card button{
+  padding:10px 28px;
+  border:none;
+  border-radius:22px;
+  background:#43a047;
+  color:white;
+  font-size:13px;
+  font-weight:700;
+  cursor:pointer;
+  transition:.3s;
+}
+.module-card button:hover{
+  background:#2e7d32;
+}
+
+.footer{
+  text-align:center;
+  margin-top:34px;
+  font-size:12.5px;
+  font-weight:600;
+  color:#2e7d32;
+}
+</style>
+</head>
+
+<body>
+
+<div class="wrapper">
+
+  <div class="title-box">
+    <h1>🌾 Smart Farm Management</h1>
+    <p>Farm Operations & Monitoring Dashboard</p>
+  </div>
+
+  <div class="top-modules">
+    <button onclick="goToPage('farmer.html')">Farmer</button>
+    <button onclick="goToPage('farmmap.html')">Farm Map</button>
+    <button onclick="goToPage('soiltest.html')">Soil Test</button>
+    <button onclick="goToPage('fertilizer.html')">Fertilizer</button>
+    <button onclick="goToPage('pest.html')">Pest Alert</button>
+    <button onclick="goToPage('machinery.html')">Machinery</button>
+    <button onclick="goToPage('labour.html')">Labour</button>
+    <button onclick="goToPage('warehouse.html')">Warehouse</button>
+    <button onclick="goToPage('support.html')">Support</button>
+  </div>
+
+  <div class="module-grid">
+
+    <div class="module-card" onclick="goToPage('farmer.html')">
+      <div class="module-icon">👨‍🌾</div>
+      <h3>Farmer</h3>
+      <p>Personal & Land Information</p>
+      <button>Open</button>
+    </div>
+
+    <div class="module-card" onclick="goToPage('farmmap.html')">
+      <div class="module-icon">🗺</div>
+      <h3>Farm Map</h3>
+      <p>Visual Land Mapping</p>
+      <button>View</button>
+    </div>
+
+    <div class="module-card" onclick="goToPage('soiltest.html')">
+      <div class="module-icon">🧪</div>
+      <h3>Soil Test</h3>
+      <p>Soil Quality Analysis</p>
+      <button>Check</button>
+    </div>
+
+    <div class="module-card" onclick="goToPage('fertilizer.html')">
+      <div class="module-icon">🌿</div>
+      <h3>Fertilizer Plan</h3>
+      <p>Fertilizer Scheduling</p>
+      <button>Plan</button>
+    </div>
+
+    <div class="module-card" onclick="goToPage('pest.html')">
+      <div class="module-icon">🐞</div>
+      <h3>Pest Alert</h3>
+      <p>Crop Disease Warnings</p>
+      <button>Alert</button>
+    </div>
+
+    <div class="module-card" onclick="goToPage('machinery.html')">
+      <div class="module-icon">🚜</div>
+      <h3>Machinery</h3>
+      <p>Equipment Management</p>
+      <button>Manage</button>
+    </div>
+
+    <div class="module-card" onclick="goToPage('labour.html')">
+      <div class="module-icon">👷</div>
+      <h3>Labour</h3>
+      <p>Worker Details & Tasks</p>
+      <button>View</button>
+    </div>
+
+    <div class="module-card" onclick="goToPage('warehouse.html')">
+      <div class="module-icon">🏬</div>
+      <h3>Warehouse</h3>
+      <p>Crop Storage Records</p>
+      <button>Check</button>
+    </div>
+
+    <div class="module-card" onclick="goToPage('support.html')">
+      <div class="module-icon">📞</div>
+      <h3>Support</h3>
+      <p>Help & Assistance</p>
+      <button>Contact</button>
+    </div>
+
+  </div>
+
+  <div class="footer">
+    © 2026 Smart Farm Management System
+  </div>
+
+</div>
+
+<script>
+function goToPage(page){
+  window.location.href = page;
+}
+</script>
+
+</body>
+</html>
