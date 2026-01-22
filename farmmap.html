@@ -2,51 +2,89 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<title>Farm Map | Smart Farm</title>
+<title>Smart Farm Map</title>
 
-<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&family=Montserrat:wght@500;700&display=swap" rel="stylesheet">
 
 <style>
-*{box-sizing:border-box;font-family:'Poppins',sans-serif;}
+*{
+  box-sizing:border-box;
+  font-family:'Montserrat',sans-serif;
+}
+
 body{
   min-height:100vh;
-  display:flex;
-  justify-content:center;
-  align-items:flex-start;
-  padding-top:30px;
-  background-image:url("../images/img7.jpg");
-  background-size:cover;
-  background-position:center;
-  background-repeat:no-repeat;
-  background-attachment:fixed;
+  margin:0;
+  padding:30px;
+  background:linear-gradient(135deg,#e8f5e9,#c8e6c9);
+  animation:bgMove 8s infinite alternate;
 }
-.container{display:grid;grid-template-columns:300px 1fr 420px;gap:25px;}
+
+@keyframes bgMove{
+  from{background-position:left;}
+  to{background-position:right;}
+}
+
+
+.container{
+  display:grid;
+  grid-template-columns:320px 1fr 420px;
+  gap:25px;
+}
+
+
 .card{
-  background:white;
-  padding:22px;
-  border-radius:22px;
-  box-shadow:0 18px 40px rgba(0,0,0,0.18);
+  background:rgba(255,255,255,0.95);
+  padding:25px;
+  border-radius:25px;
+  box-shadow:0 20px 40px rgba(0,0,0,0.15);
+  animation:fadeUp 0.7s ease;
 }
+
+@keyframes fadeUp{
+  from{opacity:0;transform:translateY(30px);}
+  to{opacity:1;transform:translateY(0);}
+}
+
 h2{
   text-align:center;
   font-weight:700;
   color:#1b5e20;
-  margin-bottom:18px;
+  margin-bottom:20px;
 }
-label{font-weight:600;margin-top:12px;display:block;}
+
+
+label{
+  font-weight:600;
+  margin-top:12px;
+  display:block;
+}
+
 input,select{
   width:100%;
-  padding:10px;
-  border-radius:12px;
-  border:1px solid #bbb;
+  padding:12px;
+  border-radius:14px;
+  border:1px solid #aaa;
   margin-top:6px;
-  font-weight:500;
+  font-size:14px;
 }
-small{color:#d32f2f;font-weight:600;}
+
+input:focus,select:focus{
+  outline:none;
+  border-color:#2e7d32;
+  box-shadow:0 0 6px rgba(46,125,50,0.4);
+}
+
+small{
+  color:#d32f2f;
+  font-weight:600;
+}
+
+
 button{
   width:100%;
   margin-top:20px;
-  padding:12px;
+  padding:14px;
   border:none;
   border-radius:30px;
   background:linear-gradient(135deg,#43a047,#66bb6a);
@@ -54,57 +92,90 @@ button{
   font-size:15px;
   font-weight:700;
   cursor:pointer;
-  transition:0.2s;
+  transition:0.3s;
 }
-button:hover{transform:scale(1.05);}
+
+button:hover{
+  transform:scale(1.05);
+}
+
+
 .map-area{
   display:grid;
-  grid-template-columns:repeat(auto-fit,minmax(160px,1fr));
-  gap:18px;
+  grid-template-columns:repeat(auto-fit,minmax(170px,1fr));
+  gap:20px;
   min-height:420px;
 }
+
 .tile{
-  border-radius:22px;
-  padding:18px;
+  border-radius:25px;
+  padding:20px;
   color:white;
   font-weight:700;
   text-align:center;
-  box-shadow:0 12px 25px rgba(0,0,0,0.3);
-  transition:0.3s;
-  backdrop-filter:blur(2px);
+  display:flex;
+  flex-direction:column;
+  justify-content:center;
+  align-items:center;
+  line-height:1.6;
+  box-shadow:0 15px 30px rgba(0,0,0,0.25);
+  animation:pop 0.5s ease;
 }
-.tile:hover{transform:translateY(-6px) scale(1.05);}
-.Rice{background:linear-gradient(135deg,#89c781,#388e3c);}
+
+@keyframes pop{
+  from{transform:scale(0.7);opacity:0;}
+  to{transform:scale(1);opacity:1;}
+}
+
+.tile:hover{
+  transform:translateY(-6px) scale(1.05);
+}
+
+.Rice{background:linear-gradient(135deg,#81c784,#388e3c);}
 .Wheat{background:linear-gradient(135deg,#aed581,#689f38);}
-.Sugarcane{background:linear-gradient(135deg,#66bb6a,#388e3c);}
+.Sugarcane{background:linear-gradient(135deg,#66bb6a,#2e7d32);}
 .Maize{background:linear-gradient(135deg,#9ccc65,#558b2f);}
-.Cotton{background:linear-gradient(135deg,#a5d6a7,#2e7d32);}
+.Cotton{background:linear-gradient(135deg,#a5d6a7,#1b5e20);}
+
+
 table{
   width:100%;
   border-collapse:collapse;
-  margin-top:10px;
-  border-radius:10px;
+  border-radius:14px;
   overflow:hidden;
 }
+
 thead{
   background:linear-gradient(135deg,#2e7d32,#66bb6a);
   color:white;
 }
+
 th,td{
-  padding:10px;
-  font-size:13px;
+  padding:12px;
   text-align:center;
+  font-size:13px;
 }
-tbody tr:nth-child(even){background:#e8f5e9;}
+
+tbody tr:nth-child(even){
+  background:#e8f5e9;
+}
+
+tbody tr:hover{
+  background:#c8e6c9;
+}
+
+
 .action{
   padding:6px 10px;
   border:none;
-  border-radius:8px;
+  border-radius:10px;
   color:white;
-  font-weight:600;
   font-size:11px;
+  font-weight:600;
   cursor:pointer;
 }
+
+.view{background:#1976d2;}
 .edit{background:#558b2f;}
 .delete{background:#d32f2f;}
 </style>
@@ -114,11 +185,12 @@ tbody tr:nth-child(even){background:#e8f5e9;}
 
 <div class="container">
 
+
 <div class="card">
 <h2>🧾 Plot Entry</h2>
 
 <label>Plot Name</label>
-<input id="pname">
+<input id="pname" placeholder="Only letters allowed">
 <small id="nErr"></small>
 
 <label>Area (Acres)</label>
@@ -139,10 +211,12 @@ tbody tr:nth-child(even){background:#e8f5e9;}
 <button onclick="savePlot()">Save Plot</button>
 </div>
 
+
 <div class="card">
 <h2>🌿 Farm Map</h2>
 <div class="map-area" id="map"></div>
 </div>
+
 
 <div class="card">
 <h2>📋 Plot Records</h2>
@@ -160,31 +234,43 @@ tbody tr:nth-child(even){background:#e8f5e9;}
 </div>
 
 </div>
-
+<script src="farmer.js"></script>
 <script>
-let plots=[],edit=-1;
+let plots=[],editIndex=-1;
+
 
 function savePlot(){
   nErr.innerText=aErr.innerText=cErr.innerText="";
+
   let name=pname.value.trim();
   let area=parea.value;
   let crop=pcrop.value;
 
-  if(name==""){nErr.innerText="Enter plot name";return;}
-  if(area<=0){aErr.innerText="Enter valid area";return;}
-  if(crop==""){cErr.innerText="Select crop";return;}
+  if(!/^[A-Za-z ]+$/.test(name)){
+    nErr.innerText="Only letters allowed";
+    return;
+  }
+  if(area<=0){
+    aErr.innerText="Enter valid area";
+    return;
+  }
+  if(crop===""){
+    cErr.innerText="Select crop";
+    return;
+  }
 
-  let p={name,area,crop};
+  let obj={name,area,crop};
 
-  if(edit==-1) plots.push(p);
-  else plots[edit]=p;
+  if(editIndex===-1) plots.push(obj);
+  else plots[editIndex]=obj;
 
-  edit=-1;
+  editIndex=-1;
   pname.value="";
   parea.value="";
   pcrop.value="";
   render();
 }
+
 
 function render(){
   map.innerHTML="";
@@ -192,16 +278,18 @@ function render(){
   plots.forEach((p,i)=>{
     map.innerHTML+=`
       <div class="tile ${p.crop}">
-        ${p.name}<br>
-        ${p.crop}<br>
-        ${p.area} Acres
+        <div>${p.name}</div>
+        <div>${p.crop}</div>
+        <div>${p.area} Acres</div>
       </div>`;
+
     tbody.innerHTML+=`
       <tr>
         <td>${p.name}</td>
         <td>${p.area}</td>
         <td>${p.crop}</td>
         <td>
+          <button class="action view" onclick="viewPlot(${i})">View</button>
           <button class="action edit" onclick="editPlot(${i})">Edit</button>
           <button class="action delete" onclick="delPlot(${i})">Delete</button>
         </td>
@@ -209,16 +297,23 @@ function render(){
   });
 }
 
+function viewPlot(i){
+  alert(
+    "Plot Name : "+plots[i].name+
+    "\nArea : "+plots[i].area+
+    "\nCrop : "+plots[i].crop
+  );
+}
+
 function editPlot(i){
-  let p=plots[i];
-  pname.value=p.name;
-  parea.value=p.area;
-  pcrop.value=p.crop;
-  edit=i;
+  pname.value=plots[i].name;
+  parea.value=plots[i].area;
+  pcrop.value=plots[i].crop;
+  editIndex=i;
 }
 
 function delPlot(i){
-  if(confirm("Delete plot?")){
+  if(confirm("Delete this plot?")){
     plots.splice(i,1);
     render();
   }

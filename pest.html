@@ -4,138 +4,207 @@
 <meta charset="UTF-8">
 <title>Pest Alert | Smart Farm</title>
 
-<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;800&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;800&family=DM+Serif+Display&display=swap" rel="stylesheet">
 
 <style>
-*{box-sizing:border-box;font-family:'Poppins',sans-serif;}
+*{margin:0;padding:0;box-sizing:border-box;font-family:'Nunito',sans-serif;}
+
 
 body{
   min-height:100vh;
+  padding:50px;
+  background: linear-gradient(135deg,#a7f3d0,#6ee7b7,#34d399);
   display:flex;
   justify-content:center;
   align-items:flex-start;
-  padding-top:30px;
-  background-image:url("../images/img10.jpg");
-  background-size:cover;
-  background-position:center;
-  background-repeat:no-repeat;
-  background-attachment:fixed;
 }
+
 
 .container{
+  max-width:1400px;
   display:grid;
-  grid-template-columns:380px 1fr;
-  gap:30px;
+  grid-template-columns:450px 1fr;
+  gap:40px;
+  width:100%;
 }
+
 
 .card{
-  background:white;
-  padding:25px;
-  border-radius:28px;
-  box-shadow:0 18px 45px rgba(0,0,0,0.2);
+  background:rgba(255,255,255,0.15);
+  backdrop-filter:blur(15px);
+  border-radius:32px;
+  padding:36px;
+  box-shadow:0 25px 60px rgba(0,0,0,.15);
+  animation:fadeUp .8s ease;
 }
+
+@keyframes fadeUp{
+  from{opacity:0;transform:translateY(30px)}
+  to{opacity:1;transform:translateY(0)}
+}
+
 
 h2{
+  font-family:'DM Serif Display',serif;
   text-align:center;
-  font-weight:800;
-  margin-bottom:20px;
-  padding:14px;
-  border-radius:20px;
-  color:white;
-  background:linear-gradient(135deg,#1b5e20,#66bb6a);
+  font-size:28px;
+  color:#065f46;
+  margin-bottom:28px;
 }
 
-label{
-  display:block;
-  margin-top:14px;
-  font-weight:700;
-  color:#2e7d32;
+
+.label-container{
+  position:relative;
+  margin-top:20px;
 }
 
 input,select,textarea{
   width:100%;
-  margin-top:6px;
-  padding:12px;
-  border-radius:14px;
-  border:1px solid #a5d6a7;
+  padding:16px 16px;
+  border-radius:20px;
+  border:none;
+  background:rgba(255,255,255,0.25);
+  backdrop-filter:blur(10px);
+  font-size:15px;
   font-weight:600;
+  color:#065f46;
+  transition:0.3s;
 }
 
-textarea{
-  resize:none;
-  height:80px;
+input:focus,select:focus,textarea:focus{
+  outline:none;
+  box-shadow:0 8px 20px rgba(34,197,94,.4);
+  background:rgba(255,255,255,0.35);
+}
+
+textarea{resize:none;height:80px;}
+
+label{
+  position:absolute;
+  top:50%;
+  left:18px;
+  transform:translateY(-50%);
+  color:#065f46;
+  font-weight:700;
+  pointer-events:none;
+  transition:0.3s;
+}
+
+input:focus + label,
+select:focus + label,
+textarea:focus + label,
+input:not(:placeholder-shown) + label,
+select:not([value=""]) + label,
+textarea:not(:placeholder-shown) + label{
+  top:-10px;
+  left:14px;
+  font-size:13px;
+  background:white;
+  padding:0 6px;
+  border-radius:4px;
+  color:#16a34a;
+}
+
+.invalid{
+  border:2px solid #dc2626 !important;
+  background:rgba(254,226,226,0.4) !important;
 }
 
 small{
-  color:#d32f2f;
+  color:#dc2626;
   font-weight:700;
+  font-size:13px;
 }
+
 
 button{
   width:100%;
-  margin-top:22px;
-  padding:14px;
+  margin-top:30px;
+  padding:18px;
   border:none;
-  border-radius:30px;
-  background:linear-gradient(135deg,#2e7d32,#66bb6a);
-  color:white;
+  border-radius:50px;
+  background:linear-gradient(135deg,#22c55e,#4ade80);
+  color:#065f46;
   font-size:16px;
-  font-weight:800;
+  font-weight:900;
   cursor:pointer;
+  transition:.4s;
 }
+
+button:hover{
+  transform:translateY(-4px) scale(1.05);
+  box-shadow:0 18px 40px rgba(34,197,94,.45);
+}
+
+
+.table-wrap{overflow-x:auto}
 
 table{
   width:100%;
-  border-collapse:collapse;
-  font-size:14px;
+  border-collapse:separate;
+  border-spacing:0 12px;
 }
 
 thead th{
-  background:linear-gradient(135deg,#004d40,#2e7d32);
-  color:white;
-  padding:10px;
-  font-weight:800;
+  padding:14px;
+  font-weight:900;
+  color:#065f46;
   text-align:center;
-  border:1px solid #c8e6c9;
 }
 
-tbody td{
-  padding:10px;
-  background:#e8f5e9;
+tbody tr{
+  background:rgba(255,255,255,0.2);
+  backdrop-filter:blur(5px);
+  box-shadow:0 10px 25px rgba(0,0,0,.08);
+  transition:0.3s;
+  border-radius:12px;
+}
+
+tbody tr:hover{
+  background:rgba(255,255,255,0.35);
+  transform:scale(1.03);
+}
+
+td{
+  padding:14px;
+  text-align:center;
   font-weight:700;
-  text-align:center;
-  border:1px solid #c8e6c9;
+  border-radius:12px;
 }
 
-tbody tr:hover td{
-  background:#dcedc8;
-  transition:all 0.2s ease-in-out;
-}
 
 .badge{
-  padding:4px 10px;
-  border-radius:12px;
+  padding:5px 12px;
+  border-radius:15px;
   font-weight:700;
-  font-size:12px;
+  font-size:13px;
 }
 
-.Low{background:#43a047;color:white;}
-.Medium{background:#f9a825;color:black;}
-.High{background:#c62828;color:white;}
+.Low{background:#16a34a;color:white;}
+.Medium{background:#facc15;color:black;}
+.High{background:#dc2626;color:white;}
+
 
 .action{
-  padding:6px 10px;
+  padding:7px 16px;
   border:none;
-  border-radius:10px;
-  color:white;
+  border-radius:20px;
+  font-size:13px;
   font-weight:700;
-  font-size:12px;
   cursor:pointer;
+  margin:2px;
+  transition:.3s;
 }
 
-.view{background:#ffb300;color:black;}
-.edit{background:#2e7d32;}
-.delete{background:#c62828;}
+.view{background:#fde68a;color:black;}
+.edit{background:#93c5fd;}
+.delete{background:#fca5a5;}
+
+.action:hover{transform:scale(1.25)}
+
+@media(max-width:900px){
+  .container{grid-template-columns:1fr;}
+}
 </style>
 </head>
 
@@ -143,14 +212,17 @@ tbody tr:hover td{
 
 <div class="container">
 
+
 <div class="card">
 <h2>🐛 Pest Alert Entry</h2>
 
+<div class="label-container">
+<input type="text" id="farmer" placeholder=" ">
 <label>Farmer Name</label>
-<input id="farmer">
 <small id="fErr"></small>
+</div>
 
-<label>Crop Type</label>
+<div class="label-container">
 <select id="crop">
 <option value="">Select Crop</option>
 <option>Rice</option>
@@ -158,31 +230,40 @@ tbody tr:hover td{
 <option>Sugarcane</option>
 <option>Wheat</option>
 </select>
+<label>Crop Type</label>
 <small id="cErr"></small>
+</div>
 
+<div class="label-container">
+<input type="text" id="pest" placeholder=" ">
 <label>Pest Name</label>
-<input id="pest">
 <small id="pErr"></small>
+</div>
 
-<label>Severity Level</label>
+<div class="label-container">
 <select id="level">
 <option value="">Select Level</option>
 <option>Low</option>
 <option>Medium</option>
 <option>High</option>
 </select>
+<label>Severity Level</label>
 <small id="lErr"></small>
+</div>
 
+<div class="label-container">
+<textarea id="actionText" placeholder=" "></textarea>
 <label>Recommended Action</label>
-<textarea id="actionText"></textarea>
 <small id="aErr"></small>
+</div>
 
 <button onclick="saveAlert()">Save Pest Alert</button>
 </div>
 
+
 <div class="card">
 <h2>🚨 Pest Alert Records</h2>
-
+<div class="table-wrap">
 <table>
 <thead>
 <tr>
@@ -196,53 +277,73 @@ tbody tr:hover td{
 <tbody id="tbody"></tbody>
 </table>
 </div>
-
 </div>
 
+</div>
+<script src="pest.js"></script>
 <script>
 let alerts=[];
 let editIndex=-1;
 
-function saveAlert(){
+const farmer=document.getElementById("farmer");
+const crop=document.getElementById("crop");
+const pest=document.getElementById("pest");
+const level=document.getElementById("level");
+const actionText=document.getElementById("actionText");
+const tbody=document.getElementById("tbody");
+
+function clearErrors(){
   ["fErr","cErr","pErr","lErr","aErr"].forEach(id=>{
     document.getElementById(id).innerText="";
   });
+  [farmer,crop,pest,level,actionText].forEach(el=>el.classList.remove("invalid"));
+}
 
-  let farmerInput=document.getElementById("farmer");
-  let cropInput=document.getElementById("crop");
-  let pestInput=document.getElementById("pest");
-  let levelInput=document.getElementById("level");
-  let actionInput=document.getElementById("actionText");
-
-  let farmer=farmerInput.value.trim();
-  let crop=cropInput.value;
-  let pestName=pestInput.value.trim();
-  let severity=levelInput.value;
-  let solution=actionInput.value.trim();
-
+function saveAlert(){
+  clearErrors();
   let ok=true;
-  if(!farmer){fErr.innerText="Enter farmer name";ok=false;}
-  if(!crop){cErr.innerText="Select crop";ok=false;}
-  if(!pestName){pErr.innerText="Enter pest";ok=false;}
-  if(!severity){lErr.innerText="Select severity";ok=false;}
-  if(!solution){aErr.innerText="Enter solution";ok=false;}
+
+  if(!/^[A-Za-z ]{3,}$/.test(farmer.value)){
+    fErr.innerText="Enter at least 3 letters";
+    farmer.classList.add("invalid");
+    ok=false;
+  }
+  if(!crop.value){
+    cErr.innerText="Select crop";
+    crop.classList.add("invalid");
+    ok=false;
+  }
+  if(!/^[A-Za-z ]{2,}$/.test(pest.value)){
+    pErr.innerText="Enter pest name";
+    pest.classList.add("invalid");
+    ok=false;
+  }
+  if(!level.value){
+    lErr.innerText="Select severity";
+    level.classList.add("invalid");
+    ok=false;
+  }
+  if(actionText.value.trim().length<5){
+    aErr.innerText="Enter solution (min 5 chars)";
+    actionText.classList.add("invalid");
+    ok=false;
+  }
 
   if(!ok) return;
 
-  let data={farmer,crop,pestName,severity,solution};
+  const data={
+    farmer:farmer.value,
+    crop:crop.value,
+    pestName:pest.value,
+    severity:level.value,
+    solution:actionText.value
+  };
 
-  if(editIndex===-1){
-    alerts.push(data);
-  }else{
-    alerts[editIndex]=data;
-    editIndex=-1;
-  }
+  if(editIndex===-1) alerts.push(data);
+  else alerts[editIndex]=data;
 
-  farmerInput.value="";
-  cropInput.value="";
-  pestInput.value="";
-  levelInput.value="";
-  actionInput.value="";
+  editIndex=-1;
+  [farmer,crop,pest,level,actionText].forEach(i=>i.value="");
   render();
 }
 
@@ -267,11 +368,11 @@ function render(){
 function viewAlert(i){
   let a=alerts[i];
   alert(
-`Farmer : ${a.farmer}
-Crop   : ${a.crop}
-Pest   : ${a.pestName}
-Level  : ${a.severity}
-Action : ${a.solution}`
+`Farmer: ${a.farmer}
+Crop: ${a.crop}
+Pest: ${a.pestName}
+Severity: ${a.severity}
+Action: ${a.solution}`
   );
 }
 

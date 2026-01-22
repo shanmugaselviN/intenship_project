@@ -4,165 +4,170 @@
 <meta charset="UTF-8">
 <title>Fertilizer Plan | Smart Farm</title>
 
-<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Playfair+Display:wght@600;700&display=swap" rel="stylesheet">
 
 <style>
-*{box-sizing:border-box;font-family:'Poppins',sans-serif;}
+*{box-sizing:border-box;margin:0;padding:0;font-family:'Inter',sans-serif}
+
 
 body{
   min-height:100vh;
-  margin:0;
-  padding:30px;
-  background-image:url("../images/img4.jpg");
-  background-size:cover;
-  background-position:center;
-  background-attachment:fixed;
+  padding:40px 20px;
+  background:
+    radial-gradient(circle at top,#dcfce7,#ecfdf5),
+    linear-gradient(135deg,#bbf7d0,#f0fdf4);
+  animation:bgMove 12s ease infinite alternate;
+}
+@keyframes bgMove{
+  from{background-position:0 0}
+  to{background-position:100% 100%}
 }
 
+
 .container{
-  max-width:1200px;
+  max-width:1250px;
   margin:auto;
   display:grid;
   grid-template-columns:380px 1fr;
-  gap:30px;
+  gap:36px;
 }
+
 
 .card{
-  background:white;
-  padding:25px;
-  border-radius:26px;
-  box-shadow:0 18px 40px rgba(0,0,0,0.25);
-  transition:0.3s;
-  overflow:hidden;
+  background:rgba(255,255,255,.96);
+  padding:30px;
+  border-radius:36px;
+  box-shadow:0 28px 65px rgba(0,0,0,.22);
+  animation:slideUp .8s ease;
 }
-.card:hover{transform:translateY(-4px);}
+@keyframes slideUp{
+  from{opacity:0;transform:translateY(45px)}
+  to{opacity:1;transform:translateY(0)}
+}
+
 
 h2{
+  font-family:'Playfair Display',serif;
   text-align:center;
-  font-weight:800;
+  padding:16px;
+  border-radius:28px;
+  background:linear-gradient(135deg,#166534,#22c55e);
   color:white;
-  margin-bottom:22px;
-  padding:14px;
-  border-radius:20px;
-  background:linear-gradient(135deg,#1b5e20,#66bb6a);
+  margin-bottom:26px;
+  letter-spacing:1px;
 }
 
+
 label{
-  font-weight:700;
-  margin-top:14px;
+  margin-top:16px;
   display:block;
-  font-size:14px;
-  color:#2e7d32;
+  font-weight:600;
+  color:#14532d;
 }
 input,select{
   width:100%;
-  padding:12px;
   margin-top:6px;
-  border-radius:14px;
-  border:1px solid #a5d6a7;
-  font-weight:600;
-  background:#f1f8e9;
+  padding:14px;
+  border-radius:18px;
+  border:2px solid #bbf7d0;
+  background:#f0fdf4;
+  transition:.3s;
 }
-small{color:#d32f2f;font-weight:700;font-size:12px;}
+input:focus,select:focus{
+  outline:none;
+  border-color:#22c55e;
+  box-shadow:0 0 0 5px rgba(34,197,94,.25);
+}
+.invalid{
+  border-color:#dc2626!important;
+  background:#fee2e2;
+}
+small{
+  color:#dc2626;
+  font-size:12px;
+  font-weight:600;
+}
+
 
 button{
   width:100%;
-  margin-top:22px;
-  padding:14px;
+  margin-top:26px;
+  padding:16px;
   border:none;
-  border-radius:30px;
-  background:linear-gradient(135deg,#43a047,#2e7d32);
+  border-radius:42px;
+  background:linear-gradient(135deg,#22c55e,#15803d);
   color:white;
-  font-size:16px;
-  font-weight:800;
+  font-size:15px;
+  font-weight:700;
   cursor:pointer;
-  transition:0.3s;
+  transition:.4s;
 }
-button:hover{transform:scale(1.05);}
+button:hover{
+  transform:translateY(-4px) scale(1.03);
+  box-shadow:0 22px 45px rgba(34,197,94,.45);
+}
 
-.table-wrapper{
-  overflow-x:auto;
-}
+
+.table-wrapper{overflow-x:auto}
 
 table{
   width:100%;
-  border-collapse: collapse;
+  border-collapse:separate;
+  border-spacing:0 18px;
   font-size:14px;
 }
-
 thead th{
-  background: linear-gradient(135deg,#1b5e20,#66bb6a);
+  font-family:'Playfair Display',serif;
+  background:linear-gradient(135deg,#064e3b,#16a34a);
   color:white;
-  padding:10px;
-  font-weight:700;
-  border-radius:8px 8px 0 0;
-  text-align:center;
-  border: 1px solid #c8e6c9;
+  padding:14px;
 }
-
+tbody tr{
+  background:linear-gradient(135deg,#f0fdf4,#dcfce7);
+  border-radius:22px;
+  box-shadow:0 14px 32px rgba(0,0,0,.18);
+  transition:.3s;
+}
+tbody tr:hover{
+  transform:translateY(-6px);
+  background:#bbf7d0;
+}
 tbody td{
-  padding:10px;
-  background:#e8f5e9;
-  border: 1px solid #c8e6c9;
-  border-radius:4px;
-  font-weight:600;
+  padding:14px;
   text-align:center;
-  word-wrap:break-word;
+  color:#14532d;
+  font-weight:500;
 }
 
-tbody tr:hover td{
-  background:#dcedc8;
-  transform:scale(1.01);
-  box-shadow:0 2px 8px rgba(0,0,0,0.1);
-  transition:all 0.2s ease-in-out;
-}
 
-.level-badge{
-  padding:4px 10px;
-  border-radius:12px;
+.level{
+  padding:6px 18px;
+  border-radius:20px;
+  font-size:12px;
   font-weight:700;
   color:white;
-  font-size:12px;
 }
-.Low{background:#81c784;}
-.Medium{background:#4caf50;}
-.High{background:#2e7d32;}
+.Low{background:#4ade80}
+.Medium{background:#22c55e}
+.High{background:#15803d}
+
 
 .action{
-  padding:4px 10px;
+  padding:6px 14px;
   border:none;
-  border-radius:8px;
-  font-weight:600;
+  border-radius:16px;
   font-size:12px;
-  margin:2px;
+  font-weight:600;
+  margin:3px;
   cursor:pointer;
 }
-.view{background:#f9a825;color:#000;}
-.edit{background:#388e3c;color:white;}
-.delete{background:#d32f2f;color:white;}
+.view{background:#facc15}
+.edit{background:#16a34a;color:white}
+.delete{background:#dc2626;color:white}
+
 
 @media(max-width:900px){
-  .container{
-    grid-template-columns:1fr;
-  }
-  table, thead, tbody, th, td, tr{
-    display:block;
-  }
-  thead tr{
-    display:none;
-  }
-  tbody td{
-    display:flex;
-    justify-content:space-between;
-    padding:10px;
-    margin-bottom:12px;
-    background:#f1f8e9;
-  }
-  tbody td::before{
-    content:attr(data-label);
-    font-weight:700;
-    color:#2e7d32;
-  }
+  .container{grid-template-columns:1fr}
 }
 </style>
 </head>
@@ -179,25 +184,25 @@ tbody tr:hover td{
 <small id="plotErr"></small>
 
 <label>Crop Type</label>
-<select id="cropType">
+<select id="crop">
 <option value="">Select Crop</option>
 <option>Rice</option>
 <option>Wheat</option>
-<option>Sugarcane</option>
 <option>Maize</option>
+<option>Sugarcane</option>
 </select>
 <small id="cropErr"></small>
 
 <label>Nitrogen (kg/ha)</label>
-<input type="number" id="nitrogen">
+<input type="number" id="n">
 <small id="nErr"></small>
 
 <label>Phosphorus (kg/ha)</label>
-<input type="number" id="phosphorus">
+<input type="number" id="p">
 <small id="pErr"></small>
 
 <label>Potassium (kg/ha)</label>
-<input type="number" id="potassium">
+<input type="number" id="k">
 <small id="kErr"></small>
 
 <label>Fertilizer Level</label>
@@ -209,7 +214,7 @@ tbody tr:hover td{
 </select>
 <small id="lErr"></small>
 
-<button onclick="saveFertilizer()">Save Fertilizer Plan</button>
+<button onclick="save()">Save Plan</button>
 </div>
 
 <div class="card">
@@ -233,78 +238,65 @@ tbody tr:hover td{
 </div>
 
 </div>
-
+<script src="fertilizer.js"></script>
 <script>
 let plans=[], edit=-1;
+const nameRegex=/^[A-Za-z ]{3,}$/;
 
-function saveFertilizer(){
-  ["plotErr","cropErr","nErr","pErr","kErr","lErr"].forEach(id=>document.getElementById(id).innerText="");
+function save(){
+  document.querySelectorAll("small").forEach(e=>e.innerText="");
+  document.querySelectorAll(".invalid").forEach(e=>e.classList.remove("invalid"));
 
-  let plot=document.getElementById("plotName").value.trim();
-  let crop=document.getElementById("cropType").value;
-  let n=document.getElementById("nitrogen").value;
-  let p=document.getElementById("phosphorus").value;
-  let k=document.getElementById("potassium").value;
-  let level=document.getElementById("level").value;
+  let plot=plotName.value.trim();
+  let cropVal=crop.value;
+  let nv=n.value, pv=p.value, kv=k.value;
+  let lvl=level.value;
 
   let ok=true;
-  if(plot==""){document.getElementById("plotErr").innerText="Enter plot name"; ok=false;}
-  if(crop==""){document.getElementById("cropErr").innerText="Select crop"; ok=false;}
-  if(n=="" || n<0){document.getElementById("nErr").innerText="Invalid N"; ok=false;}
-  if(p=="" || p<0){document.getElementById("pErr").innerText="Invalid P"; ok=false;}
-  if(k=="" || k<0){document.getElementById("kErr").innerText="Invalid K"; ok=false;}
-  if(level==""){document.getElementById("lErr").innerText="Select level"; ok=false;}
+
+  if(!nameRegex.test(plot)){plotErr.innerText="Min 3 letters";plotName.classList.add("invalid");ok=false;}
+  if(cropVal===""){cropErr.innerText="Select crop";crop.classList.add("invalid");ok=false;}
+  if(nv===""||nv<0){nErr.innerText="Invalid value";n.classList.add("invalid");ok=false;}
+  if(pv===""||pv<0){pErr.innerText="Invalid value";p.classList.add("invalid");ok=false;}
+  if(kv===""||kv<0){kErr.innerText="Invalid value";k.classList.add("invalid");ok=false;}
+  if(lvl===""){lErr.innerText="Select level";level.classList.add("invalid");ok=false;}
   if(!ok)return;
 
-  let plan={plot,crop,n,p,k,level};
-  if(edit==-1) plans.push(plan); else { plans[edit]=plan; edit=-1; }
+  let obj={plot,crop:cropVal,n:nv,p:pv,k:kv,level:lvl};
+  edit==-1?plans.push(obj):(plans[edit]=obj,edit=-1);
 
-  document.getElementById("plotName").value="";
-  document.getElementById("cropType").value="";
-  document.getElementById("nitrogen").value="";
-  document.getElementById("phosphorus").value="";
-  document.getElementById("potassium").value="";
-  document.getElementById("level").value="";
-
+  plotName.value=crop.value=n.value=p.value=k.value=level.value="";
   render();
 }
 
 function render(){
-  let tbody=document.getElementById("tbody");
   tbody.innerHTML="";
-  plans.forEach((p,i)=>{
+  plans.forEach((x,i)=>{
     tbody.innerHTML+=`
     <tr>
-      <td data-label="Plot">${p.plot}</td>
-      <td data-label="Crop">${p.crop}</td>
-      <td data-label="N">${p.n}</td>
-      <td data-label="P">${p.p}</td>
-      <td data-label="K">${p.k}</td>
-      <td data-label="Level"><span class="level-badge ${p.level}">${p.level}</span></td>
-      <td data-label="Action">
-        <button class="action view" onclick="alert('Viewing ${p.plot}')">View</button>
+      <td>${x.plot}</td>
+      <td>${x.crop}</td>
+      <td>${x.n}</td>
+      <td>${x.p}</td>
+      <td>${x.k}</td>
+      <td><span class="level ${x.level}">${x.level}</span></td>
+      <td>
+        <button class="action view" onclick="alert('Plot : ${x.plot}')">View</button>
         <button class="action edit" onclick="editPlan(${i})">Edit</button>
-        <button class="action delete" onclick="delPlan(${i})">Delete</button>
+        <button class="action delete" onclick="del(${i})">Delete</button>
       </td>
     </tr>`;
   });
 }
-
 function editPlan(i){
-  let p=plans[i];
-  document.getElementById("plotName").value=p.plot;
-  document.getElementById("cropType").value=p.crop;
-  document.getElementById("nitrogen").value=p.n;
-  document.getElementById("phosphorus").value=p.p;
-  document.getElementById("potassium").value=p.k;
-  document.getElementById("level").value=p.level;
+  let x=plans[i];
+  plotName.value=x.plot; crop.value=x.crop;
+  n.value=x.n; p.value=x.p; k.value=x.k; level.value=x.level;
   edit=i;
 }
-
-function delPlan(i){
+function del(i){
   if(confirm("Delete this record?")){
-    plans.splice(i,1);
-    render();
+    plans.splice(i,1); render();
   }
 }
 </script>

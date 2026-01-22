@@ -1,0 +1,9 @@
+[
+  {
+    "id": 1,
+    "fieldName": "Field A",
+    "soilType": "Loamy",
+    "phLevel": 6.5,
+    "suggestion": "Good for crops"
+  }
+]

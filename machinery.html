@@ -2,156 +2,216 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<title>Machinery | Smart Farm</title>
+<title>Smart Farm | Machinery Module</title>
 
-<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800&family=Montserrat:wght@600;700;800&display=swap" rel="stylesheet">
 
 <style>
-*{box-sizing:border-box;font-family:'Poppins',sans-serif;}
+*{
+  box-sizing:border-box;
+  font-family:'Poppins',sans-serif;
+}
 
 body{
   min-height:100vh;
-  padding:30px;
-  background:linear-gradient(rgba(0,0,0,.25),rgba(0,0,0,.25)),
-             url("../images/img7.jpg") center/cover fixed;
+  padding:35px;
+  background:
+    radial-gradient(circle at top left,#c1fba4,#e8fff1),
+    radial-gradient(circle at bottom right,#9ae6b4,#d9f99d);
+  animation:bgPulse 12s ease-in-out infinite alternate;
 }
+
+@keyframes bgPulse{
+  from{filter:hue-rotate(0deg);}
+  to{filter:hue-rotate(25deg);}
+}
+
 
 .container{
-  max-width:1200px;
+  max-width:1250px;
   margin:auto;
   display:grid;
-  grid-template-columns:420px 1fr;
-  gap:32px;
+  grid-template-columns:430px 1fr;
+  gap:36px;
+  animation:fadeUp 1.1s ease;
 }
+
+@keyframes fadeUp{
+  from{opacity:0;transform:translateY(25px);}
+  to{opacity:1;transform:translateY(0);}
+}
+
 
 .card{
-  background:rgba(255,255,255,.96);
-  padding:28px;
-  border-radius:30px;
-  box-shadow:0 22px 50px rgba(0,0,0,.25);
+  background:rgba(255,255,255,.88);
+  backdrop-filter:blur(14px);
+  padding:30px;
+  border-radius:32px;
+  box-shadow:0 30px 70px rgba(0,0,0,.25);
+  position:relative;
 }
 
-h2{
-  text-align:center;
-  font-size:22px;
-  font-weight:800;
-  letter-spacing:.5px;
-  color:white;
-  padding:16px;
-  border-radius:22px;
-  margin-bottom:24px;
-  background:linear-gradient(135deg,#1b5e20,#66bb6a);
+.card::before{
+  content:"";
+  position:absolute;
+  inset:0;
+  padding:2px;
+  border-radius:32px;
+  background:linear-gradient(135deg,#16a34a,#4ade80,#22c55e);
+  -webkit-mask:
+    linear-gradient(#fff 0 0) content-box,
+    linear-gradient(#fff 0 0);
+  -webkit-mask-composite:xor;
+          mask-composite:exclude;
+  pointer-events:none;
 }
+
+
+h2{
+  font-family:'Montserrat',sans-serif;
+  text-align:center;
+  font-size:23px;
+  font-weight:800;
+  letter-spacing:1px;
+  color:white;
+  padding:18px;
+  border-radius:24px;
+  margin-bottom:26px;
+  background:linear-gradient(135deg,#14532d,#22c55e);
+  box-shadow:0 10px 25px rgba(34,197,94,.45);
+}
+
 
 label{
   display:block;
-  margin-top:14px;
+  margin-top:16px;
   font-weight:700;
-  color:#2e7d32;
+  color:#14532d;
 }
 
 input,select,textarea{
   width:100%;
   margin-top:6px;
-  padding:14px;
-  border-radius:16px;
-  border:1.8px solid #c8e6c9;
-  background:#f9fff9;
+  padding:15px;
+  border-radius:18px;
+  border:2px solid #bbf7d0;
+  background:#f0fdf4;
   font-weight:600;
-  transition:.3s;
+  transition:.35s;
 }
 
-input::placeholder{font-weight:500;color:#8bc34a;}
+input::placeholder,textarea::placeholder{
+  color:#6ee7b7;
+}
 
 input:focus,select:focus,textarea:focus{
   outline:none;
-  border-color:#2e7d32;
-  box-shadow:0 0 0 3px rgba(46,125,50,.15);
+  border-color:#22c55e;
+  box-shadow:0 0 0 4px rgba(34,197,94,.25);
+  transform:scale(1.02);
 }
 
+
 .invalid{
-  border-color:#d32f2f!important;
-  box-shadow:0 0 0 3px rgba(211,47,47,.15);
-  background:#ffebee;
+  border-color:#ef4444!important;
+  background:#fee2e2;
 }
 
 small{
   font-size:12px;
   font-weight:700;
-  color:#d32f2f;
+  color:#dc2626;
 }
+
 
 button{
   width:100%;
-  margin-top:28px;
-  padding:16px;
+  margin-top:30px;
+  padding:18px;
   border:none;
-  border-radius:34px;
-  background:linear-gradient(135deg,#43a047,#1b5e20);
+  border-radius:40px;
+  background:linear-gradient(135deg,#22c55e,#15803d);
   color:white;
   font-size:16px;
   font-weight:800;
-  letter-spacing:.5px;
+  letter-spacing:.8px;
   cursor:pointer;
-  transition:.3s;
+  transition:.4s;
 }
 
 button:hover{
-  transform:translateY(-3px);
-  box-shadow:0 12px 25px rgba(67,160,71,.4);
+  transform:translateY(-4px) scale(1.03);
+  box-shadow:0 20px 40px rgba(34,197,94,.5);
 }
+
 
 table{
   width:100%;
   border-collapse:collapse;
-  font-size:14px;
-  border-radius:20px;
+  border-radius:22px;
   overflow:hidden;
 }
 
 thead th{
-  background:linear-gradient(135deg,#004d40,#2e7d32);
+  background:linear-gradient(135deg,#064e3b,#16a34a);
   color:white;
-  padding:14px;
+  padding:15px;
   font-weight:800;
   text-align:center;
+}
+
+tbody tr{
+  animation:rowFade .4s ease;
+}
+
+@keyframes rowFade{
+  from{opacity:0;transform:translateY(10px);}
+  to{opacity:1;transform:translateY(0);}
 }
 
 tbody td{
-  padding:12px;
+  padding:13px;
   text-align:center;
   font-weight:600;
-  background:#f1f8e9;
-  border-bottom:1px solid #c8e6c9;
+  background:#ecfdf5;
+  border-bottom:1px solid #bbf7d0;
 }
 
-tbody tr:nth-child(even) td{background:#e8f5e9;}
-tbody tr:hover td{background:#dcedc8;}
+tbody tr:nth-child(even) td{background:#d1fae5;}
+tbody tr:hover td{background:#a7f3d0;}
+
 
 .badge{
-  padding:6px 16px;
-  border-radius:20px;
+  padding:7px 18px;
+  border-radius:22px;
   font-weight:800;
   font-size:12px;
 }
 
-.Idle{background:#81c784;}
-.Active{background:#fbc02d;color:black;}
-.Maintenance{background:#ef5350;color:white;}
+.Idle{background:#86efac;}
+.Active{background:#fde047;color:#422006;}
+.Maintenance{background:#f87171;color:white;}
+
 
 .action{
-  padding:6px 12px;
+  padding:7px 14px;
   border:none;
-  border-radius:16px;
+  border-radius:18px;
   font-size:12px;
-  font-weight:700;
+  font-weight:800;
   cursor:pointer;
-  margin:2px;
+  margin:3px;
   color:white;
+  transition:.3s;
 }
 
-.edit{background:#2e7d32;}
-.delete{background:#c62828;}
+.edit{background:#16a34a;}
+.delete{background:#dc2626;}
+
+.action:hover{
+  transform:scale(1.1);
+}
+
 
 @media(max-width:900px){
   .container{grid-template-columns:1fr;}
@@ -167,7 +227,7 @@ tbody tr:hover td{background:#dcedc8;}
 <h2>🚜 Machinery Entry</h2>
 
 <label>Machine Name</label>
-<input id="machine" placeholder="Eg: John Deere Tractor">
+<input id="machine" placeholder="John Deere Tractor">
 <small id="mErr"></small>
 
 <label>Type</label>
@@ -217,47 +277,37 @@ tbody tr:hover td{background:#dcedc8;}
 <tbody id="tbody"></tbody>
 </table>
 </div>
-
+<script src="machinery.js"></script>
 </div>
 
 <script>
-const fields=["machine","type","status","farmer","remarks"];
-const errors=["mErr","tErr","sErr","fErr","rErr"];
 const tbody=document.getElementById("tbody");
-
 let machines=[],editIndex=-1;
 
+function textOnly(v){return /^[A-Za-z .]+$/.test(v);}
+
 function clearErrors(){
-  errors.forEach(e=>document.getElementById(e).innerText="");
-  fields.forEach(f=>document.getElementById(f).classList.remove("invalid"));
+  ["mErr","tErr","sErr","fErr","rErr"].forEach(e=>document.getElementById(e).innerText="");
+  ["machine","type","status","farmer","remarks"].forEach(f=>document.getElementById(f).classList.remove("invalid"));
 }
 
 function saveMachine(){
   clearErrors();
   let ok=true;
 
-  fields.forEach((f,i)=>{
-    let el=document.getElementById(f);
-    if(!el.value.trim()){
-      document.getElementById(errors[i]).innerText="This field is required";
-      el.classList.add("invalid");
-      ok=false;
-    }
-  });
+  if(!machine.value.trim()||!textOnly(machine.value)){mErr.innerText="Only letters";machine.classList.add("invalid");ok=false;}
+  if(!type.value){tErr.innerText="Select type";type.classList.add("invalid");ok=false;}
+  if(!status.value){sErr.innerText="Select status";status.classList.add("invalid");ok=false;}
+  if(!farmer.value.trim()||!textOnly(farmer.value)){fErr.innerText="Only letters";farmer.classList.add("invalid");ok=false;}
+  if(!remarks.value.trim()){rErr.innerText="Required";remarks.classList.add("invalid");ok=false;}
+
   if(!ok)return;
 
-  let data={
-    machine:machine.value,
-    type:type.value,
-    status:status.value,
-    farmer:farmer.value,
-    remarks:remarks.value
-  };
-
-  editIndex===-1?machines.push(data):machines[editIndex]=data;
+  let data={machine:machine.value,type:type.value,status:status.value,farmer:farmer.value,remarks:remarks.value};
+  editIndex==-1?machines.push(data):machines[editIndex]=data;
   editIndex=-1;
 
-  fields.forEach(f=>document.getElementById(f).value="");
+  ["machine","type","status","farmer","remarks"].forEach(f=>document.getElementById(f).value="");
   render();
 }
 
@@ -290,7 +340,7 @@ function editMachine(i){
 }
 
 function delMachine(i){
-  if(confirm("Delete this machinery record?")){
+  if(confirm("Delete record?")){
     machines.splice(i,1);
     render();
   }

@@ -4,150 +4,183 @@
 <meta charset="UTF-8">
 <title>Labour Management | Smart Farm</title>
 
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Playfair+Display:wght@600;700&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&family=Playfair+Display:wght@600;700&display=swap" rel="stylesheet">
 
 <style>
 *{box-sizing:border-box;margin:0;padding:0}
 
 body{
   min-height:100vh;
-  padding:30px;
-  font-family:'Inter',sans-serif;
-  background:linear-gradient(rgba(0,0,0,.35),rgba(0,0,0,.35)),
-             url("../images/img7.jpg") center/cover fixed;
+  font-family:'Poppins',sans-serif;
+  background:
+    radial-gradient(circle at top,#dcfce7,#ecfdf5),
+    linear-gradient(135deg,#bbf7d0,#f0fdf4);
+  animation:bgMove 12s ease infinite alternate;
 }
+
+@keyframes bgMove{
+  from{background-position:0 0}
+  to{background-position:100% 100%}
+}
+
+
+nav{
+  padding:20px 45px;
+  background:linear-gradient(135deg,#14532d,#22c55e);
+  color:#ecfdf5;
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  box-shadow:0 15px 40px rgba(0,0,0,.35);
+}
+
+nav h1{
+  font-family:'Playfair Display',serif;
+  font-size:26px;
+}
+
+nav ul{
+  list-style:none;
+  display:flex;
+  gap:32px;
+}
+
+nav li{font-weight:600;cursor:pointer}
+
 
 .container{
-  max-width:1200px;
-  margin:auto;
+  max-width:1350px;
+  margin:45px auto;
+  padding:0 25px;
   display:grid;
-  grid-template-columns:400px 1fr;
-  gap:30px;
+  grid-template-columns:420px 1fr;
+  gap:40px;
 }
 
+
 .card{
-  background:rgba(255,255,255,.94);
-  backdrop-filter:blur(14px);
-  padding:28px;
-  border-radius:28px;
-  box-shadow:0 25px 60px rgba(0,0,0,.3);
+  background:rgba(255,255,255,.96);
+  padding:32px;
+  border-radius:34px;
+  box-shadow:0 30px 65px rgba(0,0,0,.25);
+  animation:slideUp .8s ease;
+}
+
+@keyframes slideUp{
+  from{opacity:0;transform:translateY(50px)}
+  to{opacity:1;transform:translateY(0)}
 }
 
 h2{
   font-family:'Playfair Display',serif;
   text-align:center;
+  padding:18px;
+  border-radius:26px;
   color:white;
-  padding:16px;
-  border-radius:18px;
-  background:linear-gradient(135deg,#2e7d32,#66bb6a);
-  margin-bottom:22px;
-  letter-spacing:1px;
+  background:linear-gradient(135deg,#166534,#22c55e);
+  margin-bottom:30px;
 }
 
-label{
-  margin-top:16px;
-  display:block;
-  font-weight:600;
-  color:#2e7d32;
-}
+
+label{margin-top:18px;font-weight:600;color:#14532d;display:block}
 
 input,select,textarea{
   width:100%;
   margin-top:6px;
-  padding:13px;
-  border-radius:16px;
-  border:1px solid #a5d6a7;
-  font-weight:500;
-  font-size:14px;
+  padding:15px;
+  border-radius:18px;
+  border:2px solid #bbf7d0;
+  background:#f0fdf4;
 }
 
-textarea{height:90px;resize:none}
+textarea{height:90px}
 
-input:focus,select:focus,textarea:focus{
-  outline:none;
-  border-color:#43a047;
-  box-shadow:0 0 8px #a5d6a7;
-}
+.invalid{border-color:#dc2626;background:#fee2e2}
 
-small{
-  color:#d32f2f;
-  font-weight:600;
-  font-size:13px;
-}
+small{color:#dc2626;font-size:12px;font-weight:600}
 
-.invalid{border:2px solid #d32f2f}
 
 button{
   width:100%;
-  margin-top:26px;
-  padding:14px;
+  margin-top:30px;
+  padding:18px;
   border:none;
-  border-radius:40px;
-  background:linear-gradient(135deg,#2e7d32,#66bb6a);
+  border-radius:45px;
+  background:linear-gradient(135deg,#22c55e,#15803d);
   color:white;
   font-weight:700;
-  letter-spacing:.5px;
   cursor:pointer;
 }
 
-button:hover{transform:scale(1.07)}
 
 table{
   width:100%;
   border-collapse:separate;
-  border-spacing:0 16px;
+  border-spacing:0 18px;
 }
 
 thead th{
-  font-family:'Playfair Display',serif;
-  background:linear-gradient(135deg,#1b5e20,#66bb6a);
+  background:linear-gradient(135deg,#064e3b,#16a34a);
   color:white;
   padding:16px;
-  text-transform:uppercase;
-  letter-spacing:1px;
-  font-size:14px;
 }
 
 tbody tr{
-  background:linear-gradient(135deg,#f1f8e9,#e8f5e9);
-  box-shadow:0 12px 28px rgba(0,0,0,.2);
-  transition:.3s;
-  border-radius:18px;
-}
-
-tbody tr:hover{
-  transform:translateY(-6px);
-  background:#dcedc8;
+  background:linear-gradient(135deg,#f0fdf4,#dcfce7);
+  box-shadow:0 14px 30px rgba(0,0,0,.18);
 }
 
 td{
   padding:16px;
   text-align:center;
-  font-weight:500;
-  color:#2e7d32;
 }
 
+
 .badge{
-  padding:6px 16px;
+  padding:6px 18px;
   border-radius:20px;
   color:white;
   font-size:12px;
   font-weight:700;
-  letter-spacing:.5px;
-  display:inline-block;
 }
 
-.Available{background:#43a047;box-shadow:0 0 10px #81c784}
-.Working{background:#f57c00;color:black;box-shadow:0 0 10px #ffb74d}
-.Off{background:#d32f2f;box-shadow:0 0 10px #ef9a9a}
+.Available{background:#22c55e}
+.Working{background:#facc15;color:black}
+.Off{background:#ef4444}
+
+
+.action{
+  padding:6px 14px;
+  border:none;
+  border-radius:18px;
+  font-size:12px;
+  font-weight:600;
+  cursor:pointer;
+  margin:2px;
+}
+
+.view{background:#0284c7;color:white}
+.edit{background:#16a34a;color:white}
+.delete{background:#dc2626;color:white}
 
 @media(max-width:900px){
   .container{grid-template-columns:1fr}
+  nav ul{display:none}
 }
 </style>
 </head>
 
 <body>
+
+<nav>
+<h1>🌾 Smart Farm</h1>
+<ul>
+<li>Dashboard</li>
+<li>Labour</li>
+<li>Machinery</li>
+<li>Reports</li>
+</ul>
+</nav>
 
 <div class="container">
 
@@ -155,16 +188,16 @@ td{
 <h2>👷 Labour Entry</h2>
 
 <label>Labour Name</label>
-<input id="labourName" placeholder="Only letters">
+<input id="labourName">
 <small id="lnErr"></small>
 
 <label>Role</label>
 <select id="role">
-  <option value="">Select Role</option>
-  <option>Harvester</option>
-  <option>Planter</option>
-  <option>Monitor</option>
-  <option>Irrigator</option>
+<option value="">Select Role</option>
+<option>Harvester</option>
+<option>Planter</option>
+<option>Monitor</option>
+<option>Irrigator</option>
 </select>
 <small id="roleErr"></small>
 
@@ -174,10 +207,10 @@ td{
 
 <label>Status</label>
 <select id="status">
-  <option value="">Select Status</option>
-  <option>Available</option>
-  <option>Working</option>
-  <option>Off</option>
+<option value="">Select Status</option>
+<option>Available</option>
+<option>Working</option>
+<option>Off</option>
 </select>
 <small id="sErr"></small>
 
@@ -199,12 +232,13 @@ td{
 <th>Hours</th>
 <th>Status</th>
 <th>Notes</th>
+<th>Action</th>
 </tr>
 </thead>
 <tbody id="tbody"></tbody>
 </table>
 </div>
-
+<script src="labour.js"></script>
 </div>
 
 <script>
@@ -213,6 +247,7 @@ const role=document.getElementById("role");
 const hours=document.getElementById("hours");
 const status=document.getElementById("status");
 const notes=document.getElementById("notes");
+const tbody=document.getElementById("tbody");
 
 const lnErr=document.getElementById("lnErr");
 const roleErr=document.getElementById("roleErr");
@@ -220,56 +255,70 @@ const hErr=document.getElementById("hErr");
 const sErr=document.getElementById("sErr");
 const nErr=document.getElementById("nErr");
 
-const tbody=document.getElementById("tbody");
-
 let labours=[];
-const nameRegex=/^[A-Za-z\s]+$/;
+let editIndex=-1;
+
 
 labourName.addEventListener("input",()=>{
-  labourName.value=labourName.value.replace(/[^A-Za-z\s]/g,"");
+  labourName.value = labourName.value.replace(/[^A-Za-z\s]/g,"");
 });
 
-function saveLabour(){
+function clearErrors(){
   [lnErr,roleErr,hErr,sErr,nErr].forEach(e=>e.innerText="");
   document.querySelectorAll(".invalid").forEach(e=>e.classList.remove("invalid"));
+}
 
+function saveLabour(){
+  clearErrors();
   let ok=true;
 
-  if(!labourName.value.trim()||!nameRegex.test(labourName.value)){
-    lnErr.innerText="Only letters allowed";
+ 
+  if(!labourName.value.trim() || labourName.value.trim().length<3){
+    lnErr.innerText="Minimum 3 letters required";
     labourName.classList.add("invalid");
     ok=false;
   }
-  if(!role.value){
-    roleErr.innerText="Select role";
+
+  
+  if(role.value===""){
+    roleErr.innerText="Please select role";
     role.classList.add("invalid");
     ok=false;
   }
-  if(hours.value===""||hours.value<0){
-    hErr.innerText="Enter valid hours";
+
+  
+  if(hours.value==="" || isNaN(hours.value) || hours.value<0 || hours.value>24){
+    hErr.innerText="Hours must be between 0 to 24";
     hours.classList.add("invalid");
     ok=false;
   }
-  if(!status.value){
-    sErr.innerText="Select status";
+
+ 
+  if(status.value===""){
+    sErr.innerText="Please select status";
     status.classList.add("invalid");
     ok=false;
   }
-  if(!notes.value.trim()){
-    nErr.innerText="Enter notes";
+
+  
+  if(!notes.value.trim() || notes.value.trim().length<5){
+    nErr.innerText="Minimum 5 characters required";
     notes.classList.add("invalid");
     ok=false;
   }
 
-  if(!ok)return;
+  if(!ok) return;
 
-  labours.push({
+  const obj={
     name:labourName.value.trim(),
     role:role.value,
     hours:hours.value,
     status:status.value,
     notes:notes.value.trim()
-  });
+  };
+
+  editIndex===-1 ? labours.push(obj) : labours[editIndex]=obj;
+  editIndex=-1;
 
   labourName.value=role.value=hours.value=status.value=notes.value="";
   render();
@@ -277,19 +326,50 @@ function saveLabour(){
 
 function render(){
   tbody.innerHTML="";
-  labours.forEach(l=>{
+  labours.forEach((l,i)=>{
     tbody.innerHTML+=`
-      <tr>
-        <td>${l.name}</td>
-        <td>${l.role}</td>
-        <td>${l.hours}</td>
-        <td><span class="badge ${l.status}">${l.status}</span></td>
-        <td>${l.notes}</td>
-      </tr>
-    `;
+    <tr>
+      <td>${l.name}</td>
+      <td>${l.role}</td>
+      <td>${l.hours}</td>
+      <td><span class="badge ${l.status}">${l.status}</span></td>
+      <td>${l.notes}</td>
+      <td>
+        <button class="action view" onclick="viewLabour(${i})">View</button>
+        <button class="action edit" onclick="editLabour(${i})">Edit</button>
+        <button class="action delete" onclick="deleteLabour(${i})">Delete</button>
+      </td>
+    </tr>`;
   });
 }
-</script>
 
+function viewLabour(i){
+  const l=labours[i];
+  alert(
+`Name : ${l.name}
+Role : ${l.role}
+Hours : ${l.hours}
+Status : ${l.status}
+Notes : ${l.notes}`
+  );
+}
+
+function editLabour(i){
+  const l=labours[i];
+  labourName.value=l.name;
+  role.value=l.role;
+  hours.value=l.hours;
+  status.value=l.status;
+  notes.value=l.notes;
+  editIndex=i;
+}
+
+function deleteLabour(i){
+  if(confirm("Are you sure to delete this labour?")){
+    labours.splice(i,1);
+    render();
+  }
+}
+</script>
 </body>
 </html>
