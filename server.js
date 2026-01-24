@@ -3,7 +3,7 @@ const cors = require("cors");
 
 const authRoutes = require("./authRoutes");
 const farmerRoutes = require("./farmerRoutes");
-const farmerRoutes = require("./farmmapRoutes");
+const farmmapRoutes = require("./farmmapRoutes");
 const labourRoutes = require("./labourRoutes");
 const fertilizerRoutes = require("./fertilizerRoutes");
 const machineryRoutes = require("./machineryRoutes");
