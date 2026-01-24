@@ -1,15 +1,15 @@
 const express = require("express");
 const cors = require("cors");
 
-const authRoutes = require("./routes/authRoutes");
-const farmerRoutes = require("./routes/farmerRoutes");
-const labourRoutes = require("./routes/labourRoutes");
-const fertilizerRoutes = require("./routes/fertilizerRoutes");
-const machineryRoutes = require("./routes/machineryRoutes");
-const pestRoutes = require("./routes/pestRoutes");
-const soilRoutes = require("./routes/soilRoutes");
-const warehouseRoutes = require("./routes/warehouseRoutes");
-const supportRoutes = require("./routes/supportRoutes");
+const authRoutes = require("./authRoutes");
+const farmerRoutes = require("./farmerRoutes");
+const labourRoutes = require("./labourRoutes");
+const fertilizerRoutes = require("./fertilizerRoutes");
+const machineryRoutes = require("./machineryRoutes");
+const pestRoutes = require("./pestRoutes");
+const soilRoutes = require("./soilRoutes");
+const warehouseRoutes = require("./warehouseRoutes");
+const supportRoutes = require("./supportRoutes");
 
 const app = express();
 const PORT = 3000;
