@@ -3,6 +3,7 @@ const cors = require("cors");
 
 const authRoutes = require("./authRoutes");
 const farmerRoutes = require("./farmerRoutes");
+const farmerRoutes = require("./farmmapRoutes");
 const labourRoutes = require("./labourRoutes");
 const fertilizerRoutes = require("./fertilizerRoutes");
 const machineryRoutes = require("./machineryRoutes");
@@ -19,6 +20,7 @@ app.use(express.json());
 
 app.use("/api/auth", authRoutes);
 app.use("/api/farmers", farmerRoutes);
+app.use("/api/farmmap", farmerRoutes);
 app.use("/api/labour", labourRoutes);
 app.use("/api/fertilizer", fertilizerRoutes);
 app.use("/api/machinery", machineryRoutes);
