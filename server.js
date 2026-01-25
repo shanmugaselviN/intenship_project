@@ -1,5 +1,6 @@
 const express = require("express");
 const cors = require("cors");
+const path = require("path");
 
 const authRoutes = require("./authRoutes");
 const farmerRoutes = require("./farmerRoutes");
@@ -13,10 +14,11 @@ const warehouseRoutes = require("./warehouseRoutes");
 const supportRoutes = require("./supportRoutes");
 
 const app = express();
-const PORT = 3000;
+const PORT = 5000;
 
 app.use(cors());
 app.use(express.json());
+app.use(express.static(path.join(__dirname)));
 
 app.use("/api/auth", authRoutes);
 app.use("/api/farmers", farmerRoutes);
@@ -30,7 +32,7 @@ app.use("/api/warehouse", warehouseRoutes);
 app.use("/api/support", supportRoutes);
 
 app.get("/", (req, res) => {
-  res.send("🌾 Smart Farm Backend Running Successfully");
+  res.sendFile(path.join(__dirname, "index.html"));
 });
 
 app.listen(PORT, "0.0.0.0", () => {
