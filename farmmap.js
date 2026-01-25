@@ -19,7 +19,7 @@ function loadFarmMaps() {
     .then(res => res.json())
     .then(data => {
       const table = document.getElementById("farmmapTable");
-      table.innerHTML = ""; // clear previous rows
+      table.innerHTML = ""; 
 
       data.forEach(farm => {
         const row = table.insertRow();

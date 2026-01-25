@@ -19,7 +19,7 @@ app.use(cors());
 app.use(express.json());
 
 app.use("/api/auth", authRoutes);
-app.use("/api/farmer", farmerRoutes);
+app.use("/api/farmers", farmerRoutes);
 app.use("/api/farmmap", farmmapRoutes);
 app.use("/api/labour", labourRoutes);
 app.use("/api/fertilizer", fertilizerRoutes);
