@@ -26,7 +26,6 @@ body{
   to{filter:hue-rotate(25deg);}
 }
 
-
 .container{
   max-width:1250px;
   margin:auto;
@@ -40,7 +39,6 @@ body{
   from{opacity:0;transform:translateY(25px);}
   to{opacity:1;transform:translateY(0);}
 }
-
 
 .card{
   background:rgba(255,255,255,.88);
@@ -66,7 +64,6 @@ body{
   pointer-events:none;
 }
 
-
 h2{
   font-family:'Montserrat',sans-serif;
   text-align:center;
@@ -80,7 +77,6 @@ h2{
   background:linear-gradient(135deg,#14532d,#22c55e);
   box-shadow:0 10px 25px rgba(34,197,94,.45);
 }
-
 
 label{
   display:block;
@@ -100,17 +96,12 @@ input,select,textarea{
   transition:.35s;
 }
 
-input::placeholder,textarea::placeholder{
-  color:#6ee7b7;
-}
-
 input:focus,select:focus,textarea:focus{
   outline:none;
   border-color:#22c55e;
   box-shadow:0 0 0 4px rgba(34,197,94,.25);
   transform:scale(1.02);
 }
-
 
 .invalid{
   border-color:#ef4444!important;
@@ -123,7 +114,6 @@ small{
   color:#dc2626;
 }
 
-
 button{
   width:100%;
   margin-top:30px;
@@ -134,7 +124,6 @@ button{
   color:white;
   font-size:16px;
   font-weight:800;
-  letter-spacing:.8px;
   cursor:pointer;
   transition:.4s;
 }
@@ -143,7 +132,6 @@ button:hover{
   transform:translateY(-4px) scale(1.03);
   box-shadow:0 20px 40px rgba(34,197,94,.5);
 }
-
 
 table{
   width:100%;
@@ -157,16 +145,6 @@ thead th{
   color:white;
   padding:15px;
   font-weight:800;
-  text-align:center;
-}
-
-tbody tr{
-  animation:rowFade .4s ease;
-}
-
-@keyframes rowFade{
-  from{opacity:0;transform:translateY(10px);}
-  to{opacity:1;transform:translateY(0);}
 }
 
 tbody td{
@@ -178,8 +156,6 @@ tbody td{
 }
 
 tbody tr:nth-child(even) td{background:#d1fae5;}
-tbody tr:hover td{background:#a7f3d0;}
-
 
 .badge{
   padding:7px 18px;
@@ -192,7 +168,6 @@ tbody tr:hover td{background:#a7f3d0;}
 .Active{background:#fde047;color:#422006;}
 .Maintenance{background:#f87171;color:white;}
 
-
 .action{
   padding:7px 14px;
   border:none;
@@ -202,16 +177,10 @@ tbody tr:hover td{background:#a7f3d0;}
   cursor:pointer;
   margin:3px;
   color:white;
-  transition:.3s;
 }
 
 .edit{background:#16a34a;}
 .delete{background:#dc2626;}
-
-.action:hover{
-  transform:scale(1.1);
-}
-
 
 @media(max-width:900px){
   .container{grid-template-columns:1fr;}
@@ -227,7 +196,7 @@ tbody tr:hover td{background:#a7f3d0;}
 <h2>🚜 Machinery Entry</h2>
 
 <label>Machine Name</label>
-<input id="machine" placeholder="John Deere Tractor">
+<input id="machine">
 <small id="mErr"></small>
 
 <label>Type</label>
@@ -250,11 +219,11 @@ tbody tr:hover td{background:#a7f3d0;}
 <small id="sErr"></small>
 
 <label>Assigned Farmer</label>
-<input id="farmer" placeholder="Farmer Name">
+<input id="farmer">
 <small id="fErr"></small>
 
 <label>Remarks</label>
-<textarea id="remarks" placeholder="Condition / usage notes"></textarea>
+<textarea id="remarks"></textarea>
 <small id="rErr"></small>
 
 <button onclick="saveMachine()">Save Machinery</button>
@@ -262,7 +231,6 @@ tbody tr:hover td{background:#a7f3d0;}
 
 <div class="card">
 <h2>📋 Machinery Records</h2>
-
 <table>
 <thead>
 <tr>
@@ -281,33 +249,58 @@ tbody tr:hover td{background:#a7f3d0;}
 </div>
 
 <script>
-const tbody=document.getElementById("tbody");
-let machines=[],editIndex=-1;
+const machine = document.getElementById("machine");
+const type = document.getElementById("type");
+const statusEl = document.getElementById("status"); // FIX
+const farmer = document.getElementById("farmer");
+const remarks = document.getElementById("remarks");
+const tbody = document.getElementById("tbody");
 
-function textOnly(v){return /^[A-Za-z .]+$/.test(v);}
+let machines = [], editIndex = -1;
+
+function textOnly(v){
+  return /^[A-Za-z .]+$/.test(v);
+}
 
 function clearErrors(){
   ["mErr","tErr","sErr","fErr","rErr"].forEach(e=>document.getElementById(e).innerText="");
-  ["machine","type","status","farmer","remarks"].forEach(f=>document.getElementById(f).classList.remove("invalid"));
+  [machine,type,statusEl,farmer,remarks].forEach(f=>f.classList.remove("invalid"));
 }
 
 function saveMachine(){
   clearErrors();
-  let ok=true;
+  let ok = true;
 
-  if(!machine.value.trim()||!textOnly(machine.value)){mErr.innerText="Only letters";machine.classList.add("invalid");ok=false;}
-  if(!type.value){tErr.innerText="Select type";type.classList.add("invalid");ok=false;}
-  if(!status.value){sErr.innerText="Select status";status.classList.add("invalid");ok=false;}
-  if(!farmer.value.trim()||!textOnly(farmer.value)){fErr.innerText="Only letters";farmer.classList.add("invalid");ok=false;}
-  if(!remarks.value.trim()){rErr.innerText="Required";remarks.classList.add("invalid");ok=false;}
+  if(!machine.value.trim() || !textOnly(machine.value)){
+    mErr.innerText="Only letters"; machine.classList.add("invalid"); ok=false;
+  }
+  if(!type.value){
+    tErr.innerText="Select type"; type.classList.add("invalid"); ok=false;
+  }
+  if(!statusEl.value){
+    sErr.innerText="Select status"; statusEl.classList.add("invalid"); ok=false;
+  }
+  if(!farmer.value.trim() || !textOnly(farmer.value)){
+    fErr.innerText="Only letters"; farmer.classList.add("invalid"); ok=false;
+  }
+  if(!remarks.value.trim()){
+    rErr.innerText="Required"; remarks.classList.add("invalid"); ok=false;
+  }
 
-  if(!ok)return;
+  if(!ok) return;
 
-  let data={machine:machine.value,type:type.value,status:status.value,farmer:farmer.value,remarks:remarks.value};
-  editIndex==-1?machines.push(data):machines[editIndex]=data;
+  let data={
+    machine:machine.value,
+    type:type.value,
+    status:statusEl.value,
+    farmer:farmer.value,
+    remarks:remarks.value
+  };
+
+  editIndex==-1 ? machines.push(data) : machines[editIndex]=data;
   editIndex=-1;
 
-  ["machine","type","status","farmer","remarks"].forEach(f=>document.getElementById(f).value="");
+  [machine,type,statusEl,farmer,remarks].forEach(f=>f.value="");
   render();
 }
 
@@ -333,7 +326,7 @@ function editMachine(i){
   let m=machines[i];
   machine.value=m.machine;
   type.value=m.type;
-  status.value=m.status;
+  statusEl.value=m.status;
   farmer.value=m.farmer;
   remarks.value=m.remarks;
   editIndex=i;
